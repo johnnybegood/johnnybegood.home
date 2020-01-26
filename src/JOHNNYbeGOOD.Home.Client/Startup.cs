@@ -9,9 +9,9 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using johnnybegood.home.controller.Data;
+using JOHNNYbeGOOD.Home.controller.Data;
 
-namespace johnnybegood.home.controller
+namespace JOHNNYbeGOOD.Home.controller
 {
     public class Startup
     {

@@ -1,6 +1,6 @@
 using System;
 
-namespace johnnybegood.home.controller.Data
+namespace JOHNNYbeGOOD.Home.controller.Data
 {
     public class WeatherForecast
     {

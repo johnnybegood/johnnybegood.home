@@ -15,7 +15,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "johnnybegood.home.controller": {
+    "JOHNNYbeGOOD.Home.controller": {
       "commandName": "Project",
       "launchBrowser": true,
       "environmentVariables": {
