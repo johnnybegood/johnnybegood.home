@@ -1,17 +1,11 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using JOHNNYbeGOOD.Home.Client.Services;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using JOHNNYbeGOOD.Home.controller.Data;
 
-namespace JOHNNYbeGOOD.Home.controller
+namespace JOHNNYbeGOOD.Home.Client
 {
     public class Startup
     {
@@ -28,7 +22,7 @@ namespace JOHNNYbeGOOD.Home.controller
         {
             services.AddRazorPages();
             services.AddServerSideBlazor();
-            services.AddSingleton<WeatherForecastService>();
+            services.AddSingleton<FeedingManager>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="DummyDeviceResource\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\JOHNNYbeGOOD.Home.Model\JOHNNYbeGOOD.Home.Model.csproj" />
+  </ItemGroup>
+</Project>

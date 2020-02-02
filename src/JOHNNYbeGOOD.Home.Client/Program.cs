@@ -9,7 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
-namespace JOHNNYbeGOOD.Home.controller
+namespace JOHNNYbeGOOD.Home.Client
 {
     public class Program
     {
