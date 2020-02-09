@@ -5,9 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="DummyDeviceResource\" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\JOHNNYbeGOOD.Home.Model\JOHNNYbeGOOD.Home.Model.csproj" />
+    <ProjectReference Include="..\JOHNNYbeGOOD.Home\JOHNNYbeGOOD.Home.csproj" />
   </ItemGroup>
 </Project>
