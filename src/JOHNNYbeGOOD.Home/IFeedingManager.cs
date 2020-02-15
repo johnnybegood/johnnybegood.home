@@ -12,18 +12,24 @@ namespace JOHNNYbeGOOD.Home
         /// Trigger feeding
         /// </summary>
         /// <returns></returns>
-        Task Feed();
+        FeedingResult TryFeed();
 
         /// <summary>
         /// Schedule the feeding automatically
         /// </summary>
         /// <returns></returns>
-        Task Schedule(FeedingSchedule schedule);
+        Task ScheduleFeeding(Schedule schedule);
 
         /// <summary>
         /// Retrieve the current feeding schedule
         /// </summary>
         /// <returns></returns>
-        Task<FeedingSchedule> RetrieveSchedule();
+        Task<Schedule> RetrieveSchedule();
+
+        /// <summary>
+        /// Determine the next feeding slot
+        /// </summary>
+        /// <returns>The next feeding slot if any otherwise null</returns>
+        IFeedingSlot NextFeedingSlot();
     }
 }

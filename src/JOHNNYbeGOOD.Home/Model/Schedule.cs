@@ -3,9 +3,9 @@
 namespace JOHNNYbeGOOD.Home.Model
 {
     /// <summary>
-    /// Schedule for feeding
+    /// Schedule
     /// </summary>
-    public class FeedingSchedule
+    public class Schedule
     {
         /// <summary>
         /// Temporary disable the automatic feeding schedule

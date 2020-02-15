@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <Folder Include="Engines\" />
+    <Folder Include="Managers\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="xunit" Version="2.4.1" />
@@ -13,9 +14,12 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
+    <PackageReference Include="Moq" Version="4.13.1" />
+    <PackageReference Include="Moq.AutoMock" Version="1.2.0.120" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\JOHHNYbeGOOD.Home.Engines\JOHHNYbeGOOD.Home.Engines.csproj" />
     <ProjectReference Include="..\..\src\JOHNNYbeGOOD.Home\JOHNNYbeGOOD.Home.csproj" />
+    <ProjectReference Include="..\..\src\JOHNNYbeGOOD.Home.FeedingManager\JOHNNYbeGOOD.Home.FeedingManager.csproj" />
   </ItemGroup>
 </Project>

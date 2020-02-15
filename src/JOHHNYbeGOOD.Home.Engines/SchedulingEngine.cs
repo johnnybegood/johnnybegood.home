@@ -1,15 +1,19 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 using JOHNNYbeGOOD.Home.Engines;
 using JOHNNYbeGOOD.Home.Extensions;
 using JOHNNYbeGOOD.Home.Model;
 
 namespace JOHHNYbeGOOD.Home.Engines
 {
+    /// <summary>
+    /// Default implementation of <see cref="ISchedulingEngine"/>
+    /// </summary>
     public class SchedulingEngine : ISchedulingEngine
     {
         /// <inheritdoc />
-        public DateTime? CalculateNextSlot(FeedingSchedule schedule, DateTimeOffset from)
+        public DateTime? CalculateNextSlot(Schedule schedule, DateTimeOffset afterDateTime)
         {
             if (schedule is null)
             {
@@ -22,7 +26,7 @@ namespace JOHHNYbeGOOD.Home.Engines
             }
 
             var nextRun = schedule.Slots
-                .Select(s => CalculateNextRun(s, from))
+                .Select(s => CalculateNextRun(s, afterDateTime))
                 .Where(dt => dt != null)
                 .OrderBy(dt => dt.Value)
                 .FirstOrDefault();
@@ -30,22 +34,17 @@ namespace JOHHNYbeGOOD.Home.Engines
             return nextRun;
         }
 
-        /// <summary>
-        /// Calculate the next run for the given <paramref name="slot"/> relative to <paramref name="from"/>
-        /// </summary>
-        /// <param name="slot">The slot to use for the calculation</param>
-        /// <param name="from">The date time to calculate the next run from</param>
-        /// <returns>The next run date time or null if there is no next run</returns>
-        public DateTime? CalculateNextRun(ScheduleSlot slot, DateTimeOffset from)
+        /// <inheritdoc />
+        public DateTime? CalculateNextRun(ScheduleSlot slot, DateTimeOffset afterDateTime)
         {
             if (slot == null)
             {
                 throw new ArgumentNullException(nameof(slot));
             }
 
-            if (from == null)
+            if (afterDateTime == null)
             {
-                throw new ArgumentNullException(nameof(from));
+                throw new ArgumentNullException(nameof(afterDateTime));
             }
 
             if (slot.DayOfWeek.Equals(DaysOfWeek.None))
@@ -53,13 +52,13 @@ namespace JOHHNYbeGOOD.Home.Engines
                 return null;
             }
 
-            if (slot.DayOfWeek.HasFlag(from.DayOfWeek.AsDaysOfWeek()) && slot.TimeOfDay >= from.TimeOfDay)
+            if (slot.DayOfWeek.HasFlag(afterDateTime.DayOfWeek.AsDaysOfWeek()) && slot.TimeOfDay >= afterDateTime.TimeOfDay)
             {
-                return from.Date.Add(slot.TimeOfDay);
+                return afterDateTime.Date.Add(slot.TimeOfDay);
             }
 
-            var next = slot.DayOfWeek.Next(from.DayOfWeek);
-            int daysUntil = ((int)next - (int)from.DayOfWeek + 7) % 7;
+            var next = slot.DayOfWeek.Next(afterDateTime.DayOfWeek);
+            int daysUntil = ((int)next - (int)afterDateTime.DayOfWeek + 7) % 7;
 
             // If the next day is the current weekday, we add a week. Because we already now it is not today
             if (daysUntil == 0)
@@ -67,7 +66,17 @@ namespace JOHHNYbeGOOD.Home.Engines
                 daysUntil = 7;
             }
 
-            return from.Date.AddDays(daysUntil).Add(slot.TimeOfDay);
+            return afterDateTime.Date.AddDays(daysUntil).Add(slot.TimeOfDay);
+        }
+
+        public Task<Schedule> RetrieveSchedule(string id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task StoreSchedule(string id, Schedule schedule)
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -13,6 +13,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{3AB912BD
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JOHNNYbeGOOD.Home.Tests.UnitTests", "..\tests\JOHNNYbeGOOD.Home.Tests.UnitTests\JOHNNYbeGOOD.Home.Tests.UnitTests.csproj", "{5AE84357-441B-44AB-9A41-5E4B10C6B7BB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JOHHNYbeGOOD.Home.Resources", "JOHHNYbeGOOD.Home.Resources\JOHHNYbeGOOD.Home.Resources.csproj", "{361FA931-276D-45C1-8BE5-A9AAE6348DF0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{5AE84357-441B-44AB-9A41-5E4B10C6B7BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5AE84357-441B-44AB-9A41-5E4B10C6B7BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5AE84357-441B-44AB-9A41-5E4B10C6B7BB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{361FA931-276D-45C1-8BE5-A9AAE6348DF0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{361FA931-276D-45C1-8BE5-A9AAE6348DF0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{361FA931-276D-45C1-8BE5-A9AAE6348DF0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{361FA931-276D-45C1-8BE5-A9AAE6348DF0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{5AE84357-441B-44AB-9A41-5E4B10C6B7BB} = {3AB912BD-4DE1-4766-9A8B-2D1E96AE7AE3}
