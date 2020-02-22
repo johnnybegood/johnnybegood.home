@@ -1,11 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using JOHNNYbeGOOD.Home.Engines;
 using JOHNNYbeGOOD.Home.Model;
 using JOHNNYbeGOOD.Home.Resources;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
 namespace JOHNNYbeGOOD.Home.FeedingManager
 {
@@ -20,12 +21,12 @@ namespace JOHNNYbeGOOD.Home.FeedingManager
         /// Default constructor for <see cref="FeedingManager"/>
         /// </summary>
         /// <param name="schedulingEngine"></param>
-        public DefaultFeedingManager(IConfiguration configuration, ILogger<DefaultFeedingManager> logger, ISchedulingEngine schedulingEngine, IThingsResource thingsResource)
-            : this(new List<FeedingSlot>(), logger, schedulingEngine)
+        public DefaultFeedingManager(IOptionsSnapshot<FeedingManagerOptions> options, ILogger<DefaultFeedingManager> logger, ISchedulingEngine schedulingEngine, IThingsResource thingsResource)
         {
-            var config = configuration.GetSection("feeder");
+            _schedulingEngine = schedulingEngine;
+            _logger = logger;
 
-            foreach (var slotConfig in config.GetChildren())
+            foreach (var slotConfig in options.Value.FeedingSlots)
             {
                 _slots.Add(new FeedingSlot(slotConfig, _slots, thingsResource));
             }
@@ -67,6 +68,15 @@ namespace JOHNNYbeGOOD.Home.FeedingManager
 
             _logger.LogError("Failed feeding for slot {slot}", candidate.Name);
             return FeedingResult.Failed();
+        }
+
+        /// <inheritdoc />
+        public async Task<DateTime?> NextFeedingTime(DateTimeOffset afterDateTime)
+        {
+            var schedule = await RetrieveSchedule();
+            var next = _schedulingEngine.CalculateNextSlot(schedule, afterDateTime);
+
+            return next;
         }
 
         /// <inheritdoc />

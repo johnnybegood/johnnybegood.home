@@ -21,7 +21,7 @@ namespace JOHNNYbeGOOD.Home.Engines
         /// Calculate the next slot for the given <paramref name="schedule"/> after <paramref name="from"/>. 
         /// </summary>
         /// <param name="slot">The slot to use for the calculation</param>
-        /// <param name="from">The date time to calculate the next run from</param>
+        /// <param name="afterDateTime">The date time to calculate the next run from</param>
         /// <returns>The next run date time or null if there is no next run</returns>
         DateTime? CalculateNextSlot(Schedule schedule, DateTimeOffset afterDateTime);
 

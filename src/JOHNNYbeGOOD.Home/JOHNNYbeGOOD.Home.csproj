@@ -10,5 +10,6 @@
     <Folder Include="Extensions\" />
     <Folder Include="Resources\" />
     <Folder Include="Model\Devices\" />
+    <Folder Include="Exceptions\" />
   </ItemGroup>
 </Project>

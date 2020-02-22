@@ -21,13 +21,13 @@ namespace JOHNNYbeGOOD.Home.FeedingManager
         /// <param name="slotConfig"></param>
         /// <param name="dependendSlots"></param>
         /// <param name="thingsResource"></param>
-        public FeedingSlot(IConfiguration slotConfig, IEnumerable<FeedingSlot> dependendSlots,IThingsResource thingsResource)
+        public FeedingSlot(FeedingSlotOptions options, IEnumerable<FeedingSlot> dependendSlots,IThingsResource thingsResource)
         {
-            _gate = thingsResource.GetDevice<IGateDevice>(slotConfig["gate"]);
-            _sensor = thingsResource.GetDevice<IDigitalSensor>(slotConfig["sensor"]);
+            _gate = thingsResource.GetDevice<IGateDevice>(options.GateId);
+            _sensor = thingsResource.GetDevice<IDigitalSensor>(options.SensorId);
             _dependendSlots = dependendSlots.ToArray();
 
-            Name = slotConfig["name"];
+            Name = options.Name;
         }
 
         /// <summary>
@@ -68,7 +68,7 @@ namespace JOHNNYbeGOOD.Home.FeedingManager
         {
             if (CanOpen())
             {
-                _gate.OpenGate();
+                _gate.OpenGateAsync();
             }
 
             return !SlotClosed();

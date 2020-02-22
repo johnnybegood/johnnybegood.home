@@ -13,6 +13,6 @@ namespace JOHNNYbeGOOD.Home.Model.Devices
         /// </summary>
         /// <exception cref="InvalidOperationException">If the gate cannot be opened</exception>
         /// <returns></returns>
-        void OpenGate();
+        Task OpenGateAsync();
     }
 }

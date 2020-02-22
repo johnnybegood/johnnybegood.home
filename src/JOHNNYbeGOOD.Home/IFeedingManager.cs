@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using JOHNNYbeGOOD.Home.Model;
 
 namespace JOHNNYbeGOOD.Home
@@ -31,5 +32,12 @@ namespace JOHNNYbeGOOD.Home
         /// </summary>
         /// <returns>The next feeding slot if any otherwise null</returns>
         IFeedingSlot NextFeedingSlot();
+
+        /// <summary>
+        /// Determine the next feeding time based on the actual <see cref="Schedule"/>
+        /// </summary>
+        /// <param name = "afterDateTime" > The date time to calculate the next feeding time from</param>
+        /// <returns>The date time of the next feeding.</returns>
+        Task<DateTime?> NextFeedingTime(DateTimeOffset afterDateTime);
     }
 }

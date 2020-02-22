@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using JOHNNYbeGOOD.Home.Engines;
 using JOHNNYbeGOOD.Home.FeedingManager;
 using JOHNNYbeGOOD.Home.Model.Devices;
@@ -85,8 +86,16 @@ namespace JOHNNYbeGOOD.Home.Tests.UnitTests.Managers
                 Enumerable.Empty<FeedingSlot>(),
                 mocker.Get<IThingsResource>());
 
-            gate.Setup(g => g.OpenGate()).Callback(() => { isClosed = false; }).Verifiable();
-            sensor.Setup(s => s.Read()).Returns(() => { return isClosed; }).Verifiable();
+            gate
+                .Setup(g => g.OpenGateAsync())
+                .Callback(() => { isClosed = false; })
+                .Returns(Task.CompletedTask)
+                .Verifiable();
+
+            sensor
+                .Setup(s => s.Read())
+                .Returns(() => { return isClosed; })
+                .Verifiable();
 
             var manager = new DefaultFeedingManager(new[] { slot },
                 mocker.Get<ILogger<DefaultFeedingManager>>(),
