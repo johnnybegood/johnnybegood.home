@@ -1,15 +1,30 @@
 ﻿@inherits LayoutComponentBase
 
-<div class="sidebar">
-    <NavMenu />
+<RadzenHeader>
+    <ChildContent>
+        <h1 class="app-title">Feeder</h1>
+    </ChildContent>
+</RadzenHeader>
+
+<RadzenSidebar>
+    <ChildContent>
+        <NavMenu />
+    </ChildContent>
+</RadzenSidebar>
+
+<div style="width:100%">
+    <RadzenBody>
+        <ChildContent>
+            <RadzenContentContainer Name="main">
+                @Body
+            </RadzenContentContainer>
+        </ChildContent>
+    </RadzenBody>
 </div>
 
-<div class="main">
-    <div class="top-row px-4">
-        <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
-    </div>
-
-    <div class="content px-4">
-        @Body
-    </div>
-</div>
+<RadzenFooter>
+    <ChildContent>
+        <RadzenLabel Text="🐴 Feeder - JOHNNYbeGOOD">
+        </RadzenLabel>
+    </ChildContent>
+</RadzenFooter>
