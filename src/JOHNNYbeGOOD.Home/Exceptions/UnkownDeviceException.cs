@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Runtime.Serialization;
 using JOHNNYbeGOOD.Home.Model.Devices;
 
@@ -12,6 +13,10 @@ namespace JOHHNYbeGOOD.Home.Exceptions
         }
 
         public UnkownDeviceException(string deviceId) : base($"Unkown {typeof(T).Name} device with id {deviceId}")
+        {
+        }
+
+        public UnkownDeviceException(IEnumerable<string> deviceIds) : base($"Unkown {typeof(T).Name} device with ids {string.Join(", ", deviceIds)}")
         {
         }
 

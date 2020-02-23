@@ -25,6 +25,7 @@ namespace JOHNNYbeGOOD.Home.FeedingManager
         {
             _schedulingEngine = schedulingEngine;
             _logger = logger;
+            _slots = new List<FeedingSlot>();
 
             foreach (var slotConfig in options.Value.FeedingSlots)
             {

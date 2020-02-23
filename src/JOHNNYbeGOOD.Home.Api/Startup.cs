@@ -1,6 +1,6 @@
-using System.Device.Gpio;
-using System.Device.I2c;
+using JOHHNYbeGOOD.Home.Engines.Hosting;
 using JOHHNYbeGOOD.Home.FeedingManager.Hosting;
+using JOHHNYbeGOOD.Home.Resources.Connectors;
 using JOHHNYbeGOOD.Home.Resources.Devices;
 using JOHHNYbeGOOD.Home.Resources.Hosting;
 using Microsoft.AspNetCore.Builder;
@@ -26,24 +26,18 @@ namespace JOHNNYbeGOOD.Home.Api
         {
             services.AddControllers();
 
-            services.AddSingleton(I2cDevice.Create(new I2cConnectionSettings(1, 0x10)));
-
-            var i2c = I2cDevice.Create(new I2cConnectionSettings(1, 0x10));
-            var controller = new GpioController(PinNumberingScheme.Logical);
-
-            //Register i2c so that it gets disposed
-            services.AddSingleton(i2c);
-
             services.AddRpiThings(o => o
-                .AddThing("gate-1", new DockerPiRelayChannelDevice(0x01, i2c))
-                .AddThing("gate-2", new DockerPiRelayChannelDevice(0x01, i2c))
-                .AddThing("sensor-1", new RpiInputPinDevice(12, controller))
-                .AddThing("sensor-1", new RpiInputPinDevice(12, controller)));
+                .AddThing("gate-1", () => new DockerPiRelayChannelDevice(1, 0x10, 0x01))
+                .AddThing("gate-2", () => new DockerPiRelayChannelDevice(1, 0x10, 0x01))
+                .AddThing("sensor-1", () => new RpiInputPinDevice(26))
+                .AddThing("sensor-2", () => new RpiInputPinDevice(13)));
 
             services.AddFeedingManager(o => o
                 .AddSlot("slot-1", "gate-1", "sensor-1")
                 .AddSlot("slot-2", "gate-2", "sensor-2")
             );
+
+            services.AddDefaultScheduling();
 
             services.AddSwaggerGen(c =>
             {

@@ -1,4 +1,6 @@
 ﻿using System;
+using JOHHNYbeGOOD.Home.Resources.Connectors;
+using JOHHNYbeGOOD.Home.Resources.Devices;
 using JOHHNYbeGOOD.Home.Resources.Entities;
 using JOHNNYbeGOOD.Home.Resources;
 using Microsoft.Extensions.DependencyInjection;
@@ -16,6 +18,7 @@ namespace JOHHNYbeGOOD.Home.Resources.Hosting
         public static IServiceCollection AddRpiThings(this IServiceCollection serviceCollection, Action<ThingsOptions> configureThings)
         {
             serviceCollection.Configure(configureThings);
+            serviceCollection.AddSingleton<IRpiConnectionFactory, RpiConnectionFactory>();
             serviceCollection.AddTransient<IThingsResource, RPiThingsResource>();
 
             return serviceCollection;

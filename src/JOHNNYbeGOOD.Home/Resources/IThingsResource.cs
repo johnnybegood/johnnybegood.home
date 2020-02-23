@@ -16,10 +16,10 @@ namespace JOHNNYbeGOOD.Home.Resources
         /// <summary>
         /// Get thing with <paramref name="id"/>
         /// </summary>
-        /// <typeparam name="T"></typeparam>
+        /// <typeparam name="TDevice">Type of device</typeparam>
         /// <param name="id">Identifier of the device</param>
         /// <exception cref="ArgumentException">If the <paramref name="id"/> is unkown</exception>
         /// <returns>The device with the given identifier</returns>
-        T GetDevice<T>(string id) where T : IDevice;
+        TDevice GetDevice<TDevice>(string id) where TDevice : IDevice;
     }
 }

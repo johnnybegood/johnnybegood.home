@@ -15,6 +15,9 @@
     <ProjectReference Include="..\JOHNNYbeGOOD.Home\JOHNNYbeGOOD.Home.csproj">
       <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
     </ProjectReference>
+    <ProjectReference Include="..\JOHHNYbeGOOD.Home.Engines\JOHHNYbeGOOD.Home.Engines.csproj">
+      <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
+    </ProjectReference>
   </ItemGroup>
 
 

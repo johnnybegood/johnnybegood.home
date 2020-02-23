@@ -6,7 +6,7 @@ namespace JOHNNYbeGOOD.Home.FeedingManager
 {
     public class FeedingManagerOptions
     {
-        public ICollection<FeedingSlotOptions> FeedingSlots { get; set; }
+        public ICollection<FeedingSlotOptions> FeedingSlots { get; } = new List<FeedingSlotOptions>();
 
         /// <summary>
         /// Add a slot to the feeding manager

@@ -25,7 +25,7 @@ namespace JOHNNYbeGOOD.Home.FeedingManager
         {
             _gate = thingsResource.GetDevice<IGateDevice>(options.GateId);
             _sensor = thingsResource.GetDevice<IDigitalSensor>(options.SensorId);
-            _dependendSlots = dependendSlots.ToArray();
+            _dependendSlots = dependendSlots == null ? new FeedingSlot[0] : dependendSlots.ToArray();
 
             Name = options.Name;
         }
