@@ -44,5 +44,34 @@ namespace JOHHNYbeGOOD.Home.Resources.Devices
         {
             return _controller.Read(_pin) == PinValue.High;
         }
+
+        /// <inheritdoc />
+        public DeviceStatus CurrentStatus()
+        {
+            if (_controller == null)
+            {
+                return DeviceStatus.Disconnected("GPIO controller not connected");
+            }
+
+            if (!_controller.IsPinOpen(_pin))
+            {
+                return DeviceStatus.Disconnected($"Pin {_pin} not open");
+            }
+
+            var value = _controller.Read(_pin);
+
+            if (value == PinValue.High)
+            {
+                return DeviceStatus.Closed("High value on pin");
+            }
+            else if (value == PinValue.Low)
+            {
+                return DeviceStatus.Open("Low value on pin");
+            }
+            else
+            {
+                return DeviceStatus.Error($"Unkown value {value} on pin");
+            }
+        }
     }
 }

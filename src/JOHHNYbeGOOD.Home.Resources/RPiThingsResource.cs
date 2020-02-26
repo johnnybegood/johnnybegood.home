@@ -70,6 +70,14 @@ namespace JOHHNYbeGOOD.Home.Resources
                 .ToArray();
         }
 
+        /// <inheritdoc />
+        public IReadOnlyCollection<DeviceSummary> FullDeviceSummary()
+        {
+            return _activeDevices
+                .Select(kvp => new DeviceSummary { Id = kvp.Key, DeviceType = kvp.Value.GetType(), Status = kvp.Value.CurrentStatus() })
+                .ToArray();
+        }
+
         /// <summary>
         /// Connect to named device based on Func in the configured options of the default constructor
         /// </summary>

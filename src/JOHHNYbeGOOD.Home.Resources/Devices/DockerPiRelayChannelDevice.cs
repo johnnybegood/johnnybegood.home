@@ -12,6 +12,7 @@ namespace JOHHNYbeGOOD.Home.Resources.Devices
         private readonly byte[] _turnOffCommand;
         private readonly int _bus;
         private readonly int _deviceAddress;
+        private DeviceStatus _currentStatus = DeviceStatus.Unkown();
         private I2cDevice _i2c;
 
         public int Duration { get; set; } = 200;
@@ -31,15 +32,9 @@ namespace JOHHNYbeGOOD.Home.Resources.Devices
         }
 
         /// <inheritdoc />
-        public bool IsConnected()
-        {
-            return _i2c != null;
-        }
-
-        /// <inheritdoc />
         public async Task OpenGateAsync()
         {
-            if (!IsConnected())
+            if (_i2c == null)
             {
                 throw new InvalidOperationException("Unable to open gate while disconnected");
             }
@@ -50,16 +45,30 @@ namespace JOHHNYbeGOOD.Home.Resources.Devices
             };
 
             _i2c.Write(_turnOnCommand);
+            _currentStatus = DeviceStatus.Transitioning("Opening gate");
 
             await Task.Delay(1000);
 
             _i2c.Write(_turnOffCommand);
+            _currentStatus = DeviceStatus.Open("Opening gate");
         }
 
         /// <inheritdoc />
         public void Connect(IRpiConnectionFactory factory)
         {
             _i2c = factory.CreateI2c(_bus, _deviceAddress);
+            _currentStatus = DeviceStatus.Unkown(true);
+        }
+
+        /// <inheritdoc />
+        public DeviceStatus CurrentStatus()
+        {
+            if (_i2c == null)
+            {
+                return DeviceStatus.Disconnected("I2C bus not connected");
+            }
+
+            return _currentStatus ?? DeviceStatus.Unkown(true);
         }
     }
 }

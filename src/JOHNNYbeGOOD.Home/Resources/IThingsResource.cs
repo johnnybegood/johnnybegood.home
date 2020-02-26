@@ -21,5 +21,11 @@ namespace JOHNNYbeGOOD.Home.Resources
         /// <exception cref="ArgumentException">If the <paramref name="id"/> is unkown</exception>
         /// <returns>The device with the given identifier</returns>
         TDevice GetDevice<TDevice>(string id) where TDevice : IDevice;
+
+        /// <summary>
+        /// Full summary of known devices
+        /// </summary>
+        /// <returns></returns>
+        IReadOnlyCollection<DeviceSummary> FullDeviceSummary();
     }
 }
