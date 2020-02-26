@@ -16,6 +16,7 @@
     </PackageReference>
     <PackageReference Include="Moq" Version="4.13.1" />
     <PackageReference Include="Moq.AutoMock" Version="1.2.0.120" />
+    <PackageReference Include="Microsoft.Extensions.Options" Version="3.1.2" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\JOHHNYbeGOOD.Home.Engines\JOHHNYbeGOOD.Home.Engines.csproj" />

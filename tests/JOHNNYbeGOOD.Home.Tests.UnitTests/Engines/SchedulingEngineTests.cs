@@ -1,12 +1,14 @@
 ﻿using System;
 using JOHHNYbeGOOD.Home.Engines;
 using JOHNNYbeGOOD.Home.Model;
+using Moq.AutoMock;
 using Xunit;
 
 namespace JOHNNYbeGOOD.Home.Tests.UnitTests.Engines
 {
     public class SchedulingEngineTests
     {
+        private readonly AutoMocker _mocker = new AutoMocker();
 
         [Fact]
         public void CalculatesRunForEverydaySlotAfterTime()
@@ -14,7 +16,7 @@ namespace JOHNNYbeGOOD.Home.Tests.UnitTests.Engines
             var from = new DateTime(2020, 1, 1, 10, 00, 00, DateTimeKind.Utc);
             var slot = new ScheduleSlot { DayOfWeek = DaysOfWeek.EveryDay, TimeOfDay = new TimeSpan(14, 00, 00) };
 
-            var engine = new SchedulingEngine();
+            var engine = _mocker.CreateInstance<SchedulingEngine>();
             var result = engine.CalculateNextRun(slot, from);
 
             Assert.Equal(new DateTime(2020, 1, 1, 14, 00, 00, DateTimeKind.Utc), result);
@@ -26,7 +28,7 @@ namespace JOHNNYbeGOOD.Home.Tests.UnitTests.Engines
             var from = new DateTime(2020, 1, 1, 10, 00, 00, DateTimeKind.Utc);
             var slot = new ScheduleSlot { DayOfWeek = DaysOfWeek.EveryDay, TimeOfDay = new TimeSpan(9, 00, 00) };
 
-            var engine = new SchedulingEngine();
+            var engine = _mocker.CreateInstance<SchedulingEngine>();
             var result = engine.CalculateNextRun(slot, from);
 
             Assert.Equal(new DateTime(2020, 1, 2, 9, 00, 00, DateTimeKind.Utc), result);
@@ -38,7 +40,7 @@ namespace JOHNNYbeGOOD.Home.Tests.UnitTests.Engines
             var from = new DateTime(2020, 1, 1, 10, 00, 00, DateTimeKind.Utc);
             var slot = new ScheduleSlot { DayOfWeek = DaysOfWeek.Wednesday, TimeOfDay = new TimeSpan(9, 00, 00) };
 
-            var engine = new SchedulingEngine();
+            var engine = _mocker.CreateInstance<SchedulingEngine>();
             var result = engine.CalculateNextRun(slot, from);
 
             Assert.Equal(new DateTime(2020, 1, 8, 9, 00, 00, DateTimeKind.Utc), result);
@@ -50,7 +52,7 @@ namespace JOHNNYbeGOOD.Home.Tests.UnitTests.Engines
             var from = new DateTime(2020, 1, 1, 10, 00, 00, DateTimeKind.Utc);
             var slot = new ScheduleSlot { DayOfWeek = DaysOfWeek.Sunday, TimeOfDay = new TimeSpan(9, 00, 00) };
 
-            var engine = new SchedulingEngine();
+            var engine = _mocker.CreateInstance<SchedulingEngine>();
             var result = engine.CalculateNextRun(slot, from);
 
             Assert.Equal(new DateTime(2020, 1, 5, 9, 00, 00, DateTimeKind.Utc), result);
@@ -62,7 +64,7 @@ namespace JOHNNYbeGOOD.Home.Tests.UnitTests.Engines
             var from = new DateTime(2020, 1, 1, 10, 00, 00, DateTimeKind.Utc);
             var slot = new ScheduleSlot { DayOfWeek = DaysOfWeek.None, TimeOfDay = new TimeSpan(9, 00, 00) };
 
-            var engine = new SchedulingEngine();
+            var engine = _mocker.CreateInstance<SchedulingEngine>();
             var result = engine.CalculateNextRun(slot, from);
 
             Assert.Null(result);

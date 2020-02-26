@@ -26,5 +26,12 @@ namespace JOHNNYbeGOOD.Home.FeedingManager
 
             return this;
         }
+
+        public FeedingManagerOptions AddSlot(FeedingSlotOptions options)
+        {
+            FeedingSlots.Add(options);
+
+            return this;
+        }
     }
 }

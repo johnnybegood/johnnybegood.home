@@ -15,39 +15,31 @@ namespace JOHNNYbeGOOD.Home.FeedingManager
         private const string ScheduleName = "feeding";
         private readonly ISchedulingEngine _schedulingEngine;
         private readonly ILogger<DefaultFeedingManager> _logger;
-        private readonly IList<FeedingSlot> _slots;
+        private readonly IScheduleResource _scheduleResource;
+
+        public IList<FeedingSlot> Slots { get; set; }
 
         /// <summary>
         /// Default constructor for <see cref="FeedingManager"/>
         /// </summary>
         /// <param name="schedulingEngine"></param>
-        public DefaultFeedingManager(IOptionsSnapshot<FeedingManagerOptions> options, ILogger<DefaultFeedingManager> logger, ISchedulingEngine schedulingEngine, IThingsResource thingsResource)
+        public DefaultFeedingManager(FeedingManagerOptions options, ILogger<DefaultFeedingManager> logger, ISchedulingEngine schedulingEngine, IThingsResource thingsResource, IScheduleResource scheduleResource)
         {
             _schedulingEngine = schedulingEngine;
             _logger = logger;
-            _slots = new List<FeedingSlot>();
+            _scheduleResource = scheduleResource;
+            Slots = new List<FeedingSlot>();
 
-            foreach (var slotConfig in options.Value.FeedingSlots)
+            foreach (var slotConfig in options.FeedingSlots)
             {
-                _slots.Add(new FeedingSlot(slotConfig, _slots, thingsResource));
+                Slots.Add(new FeedingSlot(slotConfig, Slots, thingsResource));
             }
-        }
-
-        /// <summary>
-        /// Default constructor for <see cref="FeedingManager"/>
-        /// </summary>
-        /// <param name="schedulingEngine"></param>
-        public DefaultFeedingManager(IEnumerable<FeedingSlot> feedingSlots, ILogger<DefaultFeedingManager> logger, ISchedulingEngine schedulingEngine)
-        {
-            _schedulingEngine = schedulingEngine;
-            _logger = logger;
-            _slots = feedingSlots.ToList();
         }
 
         /// <inheritdoc />
         public IFeedingSlot NextFeedingSlot()
         {
-            return _slots.FirstOrDefault(s => s.CanOpen());
+            return Slots.FirstOrDefault(s => s.CanOpen());
         }
 
         /// <inheritdoc />
@@ -74,8 +66,7 @@ namespace JOHNNYbeGOOD.Home.FeedingManager
         /// <inheritdoc />
         public async Task<DateTime?> NextFeedingTime(DateTimeOffset afterDateTime)
         {
-            var schedule = await RetrieveSchedule();
-            var next = _schedulingEngine.CalculateNextSlot(schedule, afterDateTime);
+            var next = await _schedulingEngine.CalculateNextSlotAsync(ScheduleName, afterDateTime);
 
             return next;
         }
@@ -83,13 +74,13 @@ namespace JOHNNYbeGOOD.Home.FeedingManager
         /// <inheritdoc />
         public Task<Schedule> RetrieveSchedule()
         {
-            return _schedulingEngine.RetrieveSchedule(ScheduleName);
+            return _scheduleResource.RetrieveSchedule(ScheduleName);
         }
 
         /// <inheritdoc />
         public Task ScheduleFeeding(Schedule schedule)
         {
-            return _schedulingEngine.StoreSchedule(ScheduleName, schedule);
+            return _scheduleResource.StoreSchedule(ScheduleName, schedule);
         }
     }
 }

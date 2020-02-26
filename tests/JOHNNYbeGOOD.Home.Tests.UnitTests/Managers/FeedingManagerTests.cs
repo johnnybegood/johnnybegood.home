@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using JOHNNYbeGOOD.Home.Engines;
 using JOHNNYbeGOOD.Home.FeedingManager;
 using JOHNNYbeGOOD.Home.Model.Devices;
 using JOHNNYbeGOOD.Home.Resources;
-using Microsoft.Extensions.Logging;
 using Moq;
 using Moq.AutoMock;
 using Xunit;
@@ -17,28 +14,36 @@ namespace JOHNNYbeGOOD.Home.Tests.UnitTests.Managers
     {
         private readonly AutoMocker _mocker = new AutoMocker();
 
-        public FeedingManagerTests()
+        private FeedingSlot CreateSlotWithSensor(string name, Mock<IDigitalSensor> sensor)
         {
+            return new FeedingSlot(name,
+                        _mocker.Get<IGateDevice>(),
+                        sensor.Object,
+                        Enumerable.Empty<FeedingSlot>(),
+                        _mocker.Get<IThingsResource>());
+        }
+
+        private FeedingSlot CreateSlotWithGateAndSensor(string name, Mock<IGateDevice> gate, Mock<IDigitalSensor> sensor)
+        {
+            return new FeedingSlot(name,
+                        gate.Object,
+                        sensor.Object,
+                        Enumerable.Empty<FeedingSlot>(),
+                        _mocker.Get<IThingsResource>());
         }
 
         [Fact]
         public void GetsNextSlotForSingleClosedSlot()
         {
             var sensor = _mocker.GetMock<IDigitalSensor>();
-
-            var slot = new FeedingSlot("dummy",
-                _mocker.Get<IGateDevice>(),
-                sensor.Object,
-                Enumerable.Empty<FeedingSlot>(),
-                _mocker.Get<IThingsResource>());
+            var slot = CreateSlotWithSensor("dummy", sensor);
 
             sensor.Setup(s => s.Read())
                 .Returns(true)
                 .Verifiable();
 
-            var manager = new DefaultFeedingManager(new[] { slot },
-                _mocker.Get<ILogger<DefaultFeedingManager>>(),
-                _mocker.Get<ISchedulingEngine>());
+            var manager = _mocker.CreateInstance<DefaultFeedingManager>();
+            manager.Slots = new[] { slot };
 
             var result = manager.NextFeedingSlot();
 
@@ -52,19 +57,14 @@ namespace JOHNNYbeGOOD.Home.Tests.UnitTests.Managers
             var mocker = new AutoMocker();
             var sensor = mocker.GetMock<IDigitalSensor>();
 
-            var slot = new FeedingSlot("dummy",
-                mocker.Get<IGateDevice>(),
-                sensor.Object,
-                Enumerable.Empty<FeedingSlot>(),
-                mocker.Get<IThingsResource>());
+            var slot = CreateSlotWithSensor("dummy", sensor);
 
             sensor.Setup(s => s.Read())
                 .Returns(false)
                 .Verifiable();
 
-            var manager = new DefaultFeedingManager(new[] { slot },
-                mocker.Get<ILogger<DefaultFeedingManager>>(),
-                mocker.Get<ISchedulingEngine>());
+            var manager = _mocker.CreateInstance<DefaultFeedingManager>();
+            manager.Slots = new[] { slot };
 
             var result = manager.NextFeedingSlot();
 
@@ -80,11 +80,7 @@ namespace JOHNNYbeGOOD.Home.Tests.UnitTests.Managers
             var gate = mocker.GetMock<IGateDevice>();
             var isClosed = true;
 
-            var slot = new FeedingSlot("dummy",
-                gate.Object,
-                sensor.Object,
-                Enumerable.Empty<FeedingSlot>(),
-                mocker.Get<IThingsResource>());
+            var slot = CreateSlotWithGateAndSensor("dummy", gate, sensor);
 
             gate
                 .Setup(g => g.OpenGateAsync())
@@ -97,9 +93,8 @@ namespace JOHNNYbeGOOD.Home.Tests.UnitTests.Managers
                 .Returns(() => { return isClosed; })
                 .Verifiable();
 
-            var manager = new DefaultFeedingManager(new[] { slot },
-                mocker.Get<ILogger<DefaultFeedingManager>>(),
-                mocker.Get<ISchedulingEngine>());
+            var manager = _mocker.CreateInstance<DefaultFeedingManager>();
+            manager.Slots = new[] { slot };
 
             var result = manager.TryFeed();
 
@@ -114,19 +109,14 @@ namespace JOHNNYbeGOOD.Home.Tests.UnitTests.Managers
             var mocker = new AutoMocker();
             var sensor = mocker.GetMock<IDigitalSensor>();
 
-            var slot = new FeedingSlot("dummy",
-                mocker.Get<IGateDevice>(),
-                sensor.Object,
-                Enumerable.Empty<FeedingSlot>(),
-                mocker.Get<IThingsResource>());
+            var slot = CreateSlotWithSensor("dummy", sensor);
 
             sensor.Setup(s => s.Read())
                 .Returns(false)
                 .Verifiable();
 
-            var manager = new DefaultFeedingManager(new[] { slot },
-                mocker.Get<ILogger<DefaultFeedingManager>>(),
-                mocker.Get<ISchedulingEngine>());
+            var manager = _mocker.CreateInstance<DefaultFeedingManager>();
+            manager.Slots = new[] { slot };
 
             var result = manager.TryFeed();
 
@@ -142,19 +132,14 @@ namespace JOHNNYbeGOOD.Home.Tests.UnitTests.Managers
             var mocker = new AutoMocker();
             var sensor = mocker.GetMock<IDigitalSensor>();
 
-            var slot = new FeedingSlot("dummy",
-                mocker.Get<IGateDevice>(),
-                sensor.Object,
-                Enumerable.Empty<FeedingSlot>(),
-                mocker.Get<IThingsResource>());
+            var slot = CreateSlotWithSensor("dummy", sensor);
 
             sensor.Setup(s => s.Read())
                 .Returns(true)
                 .Verifiable();
 
-            var manager = new DefaultFeedingManager(new[] { slot },
-                mocker.Get<ILogger<DefaultFeedingManager>>(),
-                mocker.Get<ISchedulingEngine>());
+            var manager = _mocker.CreateInstance<DefaultFeedingManager>();
+            manager.Slots = new[] { slot };
 
             var result = manager.TryFeed();
 
@@ -187,9 +172,8 @@ namespace JOHNNYbeGOOD.Home.Tests.UnitTests.Managers
                     _mocker.Get<IThingsResource>()));
             }
 
-            var manager = new DefaultFeedingManager(slots,
-                _mocker.Get<ILogger<DefaultFeedingManager>>(),
-                _mocker.Get<ISchedulingEngine>());
+            var manager = _mocker.CreateInstance<DefaultFeedingManager>();
+            manager.Slots = slots;
 
             var result = manager.NextFeedingSlot();
 

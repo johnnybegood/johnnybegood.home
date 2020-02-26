@@ -20,11 +20,7 @@ namespace JOHHNYbeGOOD.Home.FeedingManager.Hosting
         public static IServiceCollection AddFeedingManager(this IServiceCollection serviceCollection, Action<FeedingManagerOptions> configureThings)
         {
             serviceCollection.Configure(configureThings);
-            serviceCollection.AddTransient<IFeedingManager, DefaultFeedingManager>(p => new DefaultFeedingManager(
-                p.GetRequiredService<IOptionsSnapshot<FeedingManagerOptions>>(),
-                p.GetRequiredService<ILogger<DefaultFeedingManager>>(),
-                p.GetRequiredService<ISchedulingEngine>(),
-                p.GetRequiredService<IThingsResource>()));
+            serviceCollection.AddTransient<IFeedingManager, DefaultFeedingManager>();
 
             return serviceCollection;
         }
