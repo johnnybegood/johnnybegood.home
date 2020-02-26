@@ -18,8 +18,10 @@ namespace JOHHNYbeGOOD.Home.Resources.Hosting
         public static IServiceCollection AddRpiThings(this IServiceCollection serviceCollection, Action<ThingsOptions> configureThings)
         {
             serviceCollection.Configure(configureThings);
+            serviceCollection.Configure<ScheduleResourceOptions>(o => o.ConnectionString = "feeder-v1.db");
             serviceCollection.AddSingleton<IRpiConnectionFactory, RpiConnectionFactory>();
             serviceCollection.AddTransient<IThingsResource, RPiThingsResource>();
+            serviceCollection.AddTransient<IScheduleResource, DbScheduleResource>();
 
             return serviceCollection;
         }

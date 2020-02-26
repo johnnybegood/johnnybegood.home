@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using JOHNNYbeGOOD.Home.Engines;
 using JOHNNYbeGOOD.Home.Extensions;
 using JOHNNYbeGOOD.Home.Model;
+using JOHNNYbeGOOD.Home.Resources;
 
 namespace JOHHNYbeGOOD.Home.Engines
 {
@@ -12,6 +13,16 @@ namespace JOHHNYbeGOOD.Home.Engines
     /// </summary>
     public class SchedulingEngine : ISchedulingEngine
     {
+        private IScheduleResource _scheduleResource;
+
+        /// <summary>
+        /// Default constructor for <see cref="SchedulingEngine"/>
+        /// </summary>
+        /// <param name="scheduleResource"></param>
+        public SchedulingEngine(IScheduleResource scheduleResource)
+        {
+            _scheduleResource = scheduleResource;
+        }
         /// <inheritdoc />
         public DateTime? CalculateNextSlot(Schedule schedule, DateTimeOffset afterDateTime)
         {
@@ -69,14 +80,17 @@ namespace JOHHNYbeGOOD.Home.Engines
             return afterDateTime.Date.AddDays(daysUntil).Add(slot.TimeOfDay);
         }
 
-        public Task<Schedule> RetrieveSchedule(string id)
+        /// <inheritdoc />
+        public async Task<DateTime?> CalculateNextSlotAsync(string scheduleId, DateTimeOffset afterDateTime)
         {
-            throw new NotImplementedException();
-        }
+            if (string.IsNullOrWhiteSpace(scheduleId))
+            {
+                throw new ArgumentException("message", nameof(scheduleId));
+            }
 
-        public Task StoreSchedule(string id, Schedule schedule)
-        {
-            throw new NotImplementedException();
+            var schedule = await _scheduleResource.RetrieveSchedule(scheduleId);
+
+            return CalculateNextSlot(schedule, afterDateTime);
         }
     }
 }

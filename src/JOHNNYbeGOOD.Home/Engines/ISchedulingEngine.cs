@@ -26,18 +26,11 @@ namespace JOHNNYbeGOOD.Home.Engines
         DateTime? CalculateNextSlot(Schedule schedule, DateTimeOffset afterDateTime);
 
         /// <summary>
-        /// Retrieve the active schedule for <paramref name="id"/>
+        /// Calculate the next slot for the schedule after <paramref name="from"/>. 
         /// </summary>
-        /// <param name="id">The ID of the schedule</param>
-        /// <returns>The active schedule with the given <paramref name="id"/></returns>
-        Task<Schedule> RetrieveSchedule(string id);
-
-        /// <summary>
-        /// Store a new schedule for <paramref name="id"/>
-        /// </summary>
-        /// <param name="id">The ID of the schedule</param>
-        /// <param name="schedule">The new schedule to store</param>
-        /// <returns></returns>
-        Task StoreSchedule(string id, Schedule schedule);
+        /// <param name="scheduleId">The name of the schedule to use</param>
+        /// <param name="afterDateTime">The date time to calculate the next run from</param>
+        /// <returns>The next run date time or null if there is no next run</returns>
+        Task<DateTime?> CalculateNextSlotAsync(string scheduleId, DateTimeOffset afterDateTime);
     }
 }
