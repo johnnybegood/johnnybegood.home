@@ -26,7 +26,7 @@ namespace JOHHNYbeGOOD.Home.Resources
         /// <inheritdoc />
         public Task<Schedule> RetrieveSchedule(string id)
         {
-            return Task.Run(() => _collection.FindById(id));
+            return Task.Run(() => _collection.FindById(id) ?? new Schedule());
         }
 
         /// <inheritdoc />

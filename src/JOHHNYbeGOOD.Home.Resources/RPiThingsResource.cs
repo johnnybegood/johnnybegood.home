@@ -23,7 +23,6 @@ namespace JOHHNYbeGOOD.Home.Resources
         private readonly ILogger<RPiThingsResource> _logger;
         private readonly ThingsOptions _options;
         private readonly IRpiConnectionFactory _factory;
-        private readonly Lazy<GpioController> _gpioController;
         private readonly ConcurrentDictionary<string, IDevice> _activeDevices;
 
         /// <summary>
@@ -37,7 +36,6 @@ namespace JOHHNYbeGOOD.Home.Resources
             _options = options.Value;
             _factory = rpiConnectionFactory;
             _activeDevices = new ConcurrentDictionary<string, IDevice>();
-            _gpioController = new Lazy<GpioController>(() => new GpioController(PinNumberingScheme.Logical), LazyThreadSafetyMode.ExecutionAndPublication);
         }
 
         /// <inheritdoc />

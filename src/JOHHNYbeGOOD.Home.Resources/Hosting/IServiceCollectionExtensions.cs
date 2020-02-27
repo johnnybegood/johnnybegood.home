@@ -20,7 +20,7 @@ namespace JOHHNYbeGOOD.Home.Resources.Hosting
             serviceCollection.Configure(configureThings);
             serviceCollection.Configure<ScheduleResourceOptions>(o => o.ConnectionString = "feeder-v1.db");
             serviceCollection.AddSingleton<IRpiConnectionFactory, RpiConnectionFactory>();
-            serviceCollection.AddTransient<IThingsResource, RPiThingsResource>();
+            serviceCollection.AddSingleton<IThingsResource, RPiThingsResource>();
             serviceCollection.AddTransient<IScheduleResource, DbScheduleResource>();
 
             return serviceCollection;

@@ -31,7 +31,7 @@ namespace JOHHNYbeGOOD.Home.Engines
                 throw new ArgumentNullException(nameof(schedule));
             }
 
-            if (schedule.Disabled || !schedule.Slots.Any())
+            if (schedule.Disabled || schedule.Slots == null || !schedule.Slots.Any())
             {
                 return null;
             }

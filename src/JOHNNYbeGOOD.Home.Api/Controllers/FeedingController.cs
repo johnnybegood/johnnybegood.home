@@ -30,7 +30,7 @@ namespace JOHNNYbeGOOD.Home.Api.Controllers
 
             return new NextFeedingSlotResponse
             {
-                Slot = nextSlot.Name,
+                Slot = nextSlot?.Name,
                 Timing = nextTiming
             };
         }

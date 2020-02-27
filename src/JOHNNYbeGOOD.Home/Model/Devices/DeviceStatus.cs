@@ -19,11 +19,6 @@ namespace JOHNNYbeGOOD.Home.Model.Devices
         /// </summary>
         public string Description { get; set; }
 
-        public static DeviceStatus Unkown()
-        {
-            throw new NotImplementedException();
-        }
-
         /// <summary>
         /// Get <see cref="DeviceStatus"/> for disconnected device
         /// </summary>

@@ -23,16 +23,19 @@ namespace JOHNNYbeGOOD.Home.FeedingManager
         /// Default constructor for <see cref="FeedingManager"/>
         /// </summary>
         /// <param name="schedulingEngine"></param>
-        public DefaultFeedingManager(FeedingManagerOptions options, ILogger<DefaultFeedingManager> logger, ISchedulingEngine schedulingEngine, IThingsResource thingsResource, IScheduleResource scheduleResource)
+        public DefaultFeedingManager(IOptions<FeedingManagerOptions> options, ILogger<DefaultFeedingManager> logger, ISchedulingEngine schedulingEngine, IThingsResource thingsResource, IScheduleResource scheduleResource)
         {
             _schedulingEngine = schedulingEngine;
             _logger = logger;
             _scheduleResource = scheduleResource;
             Slots = new List<FeedingSlot>();
 
-            foreach (var slotConfig in options.FeedingSlots)
+            if (options.Value?.FeedingSlots?.Any() == true)
             {
-                Slots.Add(new FeedingSlot(slotConfig, Slots, thingsResource));
+                foreach (var slotConfig in options.Value.FeedingSlots)
+                {
+                    Slots.Add(new FeedingSlot(slotConfig, Slots, thingsResource));
+                }
             }
         }
 

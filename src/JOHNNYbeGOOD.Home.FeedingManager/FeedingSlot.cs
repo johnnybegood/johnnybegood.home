@@ -3,7 +3,6 @@ using System.Linq;
 using JOHNNYbeGOOD.Home.Model;
 using JOHNNYbeGOOD.Home.Model.Devices;
 using JOHNNYbeGOOD.Home.Resources;
-using Microsoft.Extensions.Configuration;
 
 namespace JOHNNYbeGOOD.Home.FeedingManager
 {
