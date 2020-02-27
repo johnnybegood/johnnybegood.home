@@ -1,0 +1,9 @@
+﻿[Unit]
+Description=JOHNNYbeGOOD Feeder
+
+[Service]
+Type=notify
+ExecStart=/usr/local/bin/johnnybegood/JOHNNYbeGOOD.Home.Api
+
+[Install]
+WantedBy=multi-user.target
