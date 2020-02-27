@@ -25,6 +25,7 @@ systemctl stop ${SERVICE_NAME} >/dev/null 2>&1 || true
 # --- CLEAR OLD INSTALL ---
 $SUDO rm -f ${FILE_SERVICE} || true
 $SUDO systemctl disable ${SERVICE_NAME} >/dev/null 2>&1 || true
+$SUDO rm -rf ${INSTALL_DIR}  >/dev/null 2>&1 || true
 
 # --- UNPACK ---
 info "Unpacking JOHHNYbeGOOD.Home to ${SOURCE_DIR}"
@@ -46,3 +47,6 @@ info "Enabling ${SERVICE_NAME} unit"
 $SUDO systemctl enable ${FILE_SERVICE}
 $SUDO systemctl daemon-reload
 $SUDO systemctl start ${SERVICE_NAME}
+
+# --- CLEAR INSTALL ---
+$SUDO rm -rf ${EXTRACT_DIR} || true
