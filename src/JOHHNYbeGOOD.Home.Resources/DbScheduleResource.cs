@@ -84,7 +84,7 @@ namespace JOHHNYbeGOOD.Home.Resources
         public Task<FeedingLog> LastFeeding(DateTimeOffset beforeDateTime)
         {
             return Task.Run(() => _logCollection
-                .Find(l => l.Timestamp <= beforeDateTime.ToUniversalTime())
+                .Find(l => l.Timestamp <= beforeDateTime.ToUniversalTime() && l.Result == FeedingLogResult.Successfull)
                 .OrderByDescending(l => l.Timestamp)
                 .FirstOrDefault());
         }

@@ -23,7 +23,7 @@ namespace JOHNNYbeGOOD.Home.Api.Controllers
         /// <summary>
         /// Summary of the feeding
         /// </summary>
-        [HttpGet("/")]
+        [HttpGet()]
         public async Task<ActionResult<FeedingSummary>> Summary()
         {
             var summary = await _feedingManager.FeedingSummary(DateTime.UtcNow);
