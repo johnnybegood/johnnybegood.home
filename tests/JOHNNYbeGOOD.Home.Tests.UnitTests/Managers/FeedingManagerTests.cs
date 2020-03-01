@@ -73,7 +73,7 @@ namespace JOHNNYbeGOOD.Home.Tests.UnitTests.Managers
         }
 
         [Fact]
-        public void FeedingSuccessfullForSingleClosedSlot()
+        public async Task FeedingSuccessfullForSingleClosedSlotAsync()
         {
             var mocker = new AutoMocker();
             var sensor = mocker.GetMock<IDigitalSensor>();
@@ -96,7 +96,7 @@ namespace JOHNNYbeGOOD.Home.Tests.UnitTests.Managers
             var manager = _mocker.CreateInstance<DefaultFeedingManager>();
             manager.Slots = new[] { slot };
 
-            var result = manager.TryFeed();
+            var result = await manager.TryFeedAsync();
 
             _mocker.VerifyAll();
             Assert.True(result.Succeeded);
@@ -104,7 +104,7 @@ namespace JOHNNYbeGOOD.Home.Tests.UnitTests.Managers
         }
 
         [Fact]
-        public void FeedingFailsForSingleOpenSlot()
+        public async Task FeedingFailsForSingleOpenSlotAsync()
         {
             var mocker = new AutoMocker();
             var sensor = mocker.GetMock<IDigitalSensor>();
@@ -118,7 +118,7 @@ namespace JOHNNYbeGOOD.Home.Tests.UnitTests.Managers
             var manager = _mocker.CreateInstance<DefaultFeedingManager>();
             manager.Slots = new[] { slot };
 
-            var result = manager.TryFeed();
+            var result = await manager.TryFeedAsync();
 
             sensor.VerifyAll();
 
@@ -127,7 +127,7 @@ namespace JOHNNYbeGOOD.Home.Tests.UnitTests.Managers
         }
 
         [Fact]
-        public void FeedingFailsIfSlotRemainsClosed()
+        public async Task FeedingFailsIfSlotRemainsClosedAsync()
         {
             var mocker = new AutoMocker();
             var sensor = mocker.GetMock<IDigitalSensor>();
@@ -141,7 +141,7 @@ namespace JOHNNYbeGOOD.Home.Tests.UnitTests.Managers
             var manager = _mocker.CreateInstance<DefaultFeedingManager>();
             manager.Slots = new[] { slot };
 
-            var result = manager.TryFeed();
+            var result = await manager.TryFeedAsync();
 
             sensor.VerifyAll();
 

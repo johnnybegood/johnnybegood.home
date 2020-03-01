@@ -46,7 +46,7 @@ namespace JOHNNYbeGOOD.Home.FeedingManager
         }
 
         /// <inheritdoc />
-        public FeedingResult TryFeed()
+        public async Task<FeedingResult> TryFeedAsync()
         {
             var candidate = (FeedingSlot) NextFeedingSlot();
             if (candidate == null)
@@ -59,9 +59,11 @@ namespace JOHNNYbeGOOD.Home.FeedingManager
 
             if (candidate.TryOpenGate())
             {
+                await _scheduleResource.LogFeeding(candidate.Name, DateTime.Now);
                 return FeedingResult.Success(candidate.Name);
             }
 
+            await _scheduleResource.LogFailedFeeding(candidate.Name, DateTime.Now);
             _logger.LogError("Failed feeding for slot {slot}", candidate.Name);
             return FeedingResult.Failed();
         }
@@ -84,6 +86,22 @@ namespace JOHNNYbeGOOD.Home.FeedingManager
         public Task ScheduleFeeding(Schedule schedule)
         {
             return _scheduleResource.StoreSchedule(ScheduleName, schedule);
+        }
+
+        /// <inheritdoc />
+        public async Task<FeedingSummary> FeedingSummary(DateTimeOffset afterDateTime)
+        {
+            var lastFeeding = await _scheduleResource.LastFeeding(afterDateTime);
+            var nextTime = await NextFeedingTime(afterDateTime);
+            var nextSlot = NextFeedingSlot();
+
+            return new FeedingSummary
+            {
+                NextFeedingTime = nextTime,
+                NextFeedingSlotName = nextSlot?.Name,
+                PreviousFeedingSlotName = lastFeeding?.Description,
+                PreviousFeedingTime = lastFeeding?.Timestamp
+            };
         }
     }
 }
