@@ -71,8 +71,9 @@ namespace JOHHNYbeGOOD.Home.Resources
         /// <inheritdoc />
         public IReadOnlyCollection<DeviceSummary> FullDeviceSummary()
         {
-            return _activeDevices
-                .Select(kvp => new DeviceSummary { Id = kvp.Key, DeviceType = kvp.Value.GetType(), Status = kvp.Value.CurrentStatus() })
+            return _options.Things
+                .Select(kvp => new { kvp.Key, Device = GetDevice<IDevice>(kvp.Key) })
+                .Select(kd => new DeviceSummary { Id = kd.Key, DeviceType = kd.Device.GetType(), Status = kd.Device.CurrentStatus() })
                 .ToArray();
         }
 

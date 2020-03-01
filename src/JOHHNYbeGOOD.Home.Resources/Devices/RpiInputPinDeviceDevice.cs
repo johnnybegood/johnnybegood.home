@@ -29,7 +29,7 @@ namespace JOHHNYbeGOOD.Home.Resources.Devices
 
             if (!_controller.IsPinOpen(_pin))
             {
-                _controller.OpenPin(_pin, PinMode.Input);
+                _controller.OpenPin(_pin, PinMode.InputPullDown);
             }
         }
 
