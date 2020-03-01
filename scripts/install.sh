@@ -10,7 +10,6 @@ info()
 # --- LOCATIONS ---
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 EXTRACT_DIR=${DIR}/tmp
-SOURCE_DIR=${EXTRACT_DIR}/publish/api
 SERVICE_NAME=johnnybegood
 SERVICE_FILE=${SERVICE_NAME}.service
 SYSTEMD_DIR=/etc/systemd/system
@@ -23,24 +22,25 @@ info "Stopping existing JOHHNYbeGOOD.Home"
 systemctl stop ${SERVICE_NAME} >/dev/null 2>&1 || true
 
 # --- CLEAR OLD INSTALL ---
+info "Removing old install"
 $SUDO rm -f ${FILE_SERVICE} || true
 $SUDO systemctl disable ${SERVICE_NAME} >/dev/null 2>&1 || true
 $SUDO rm -rf ${INSTALL_DIR}  >/dev/null 2>&1 || true
 
 # --- UNPACK ---
-info "Unpacking JOHHNYbeGOOD.Home to ${SOURCE_DIR}"
+info "Unpacking JOHHNYbeGOOD.Home to ${EXTRACT_DIR}"
 mkdir ${EXTRACT_DIR}
 tar -xzvf api.tar.gz -C ${EXTRACT_DIR}
 
 # --- SETUP PERMISSIONS ---
 info "Setting premisions JOHHNYbeGOOD.Home"
-$SUDO chown root:root ${SOURCE_DIR}
-$SUDO chmod 777 ${SOURCE_DIR}/${SERVICE_FILE}
+$SUDO chown root:root ${EXTRACT_DIR}
+$SUDO chmod 777 ${EXTRACT_DIR}/${SERVICE_FILE}
 
 # --- COPY FILES ---
 info "Installing JOHHNYbeGOOD.Home to ${INSTALL_DIR}"
-$SUDO mv -f ${SOURCE_DIR}/${SERVICE_FILE} ${SYSTEMD_DIR}
-$SUDO mv -f ${SOURCE_DIR} ${INSTALL_DIR}
+$SUDO mv -f ${EXTRACT_DIR}/${SERVICE_FILE} ${SYSTEMD_DIR}
+$SUDO mv -f ${EXTRACT_DIR} ${INSTALL_DIR}
 
 # --- START SERVICE ---
 info "Enabling ${SERVICE_NAME} unit"

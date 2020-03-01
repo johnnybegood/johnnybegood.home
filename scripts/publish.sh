@@ -12,6 +12,8 @@ echo "- BUILDING"
 cd $DIR
 ./build.sh
 
-echo "- COPY TO ${LOCATION}"
+echo "-------------------------------------------------------"
+echo "[INFO] COPY TO ${LOCATION}"
+echo "-------------------------------------------------------"
 cd $DIR
 scp -r ../publish/ $LOCATION:~/feeding
