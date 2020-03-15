@@ -30,7 +30,7 @@ namespace JOHHNYbeGOOD.Home.Resources
         /// </summary>
         /// <param name="options"></param>
         /// <param name="logger"></param>
-        public RPiThingsResource(IOptionsSnapshot<ThingsOptions> options, ILogger<RPiThingsResource> logger, IRpiConnectionFactory rpiConnectionFactory)
+        public RPiThingsResource(IOptions<ThingsOptions> options, ILogger<RPiThingsResource> logger, IRpiConnectionFactory rpiConnectionFactory)
         {
             _logger = logger;
             _options = options.Value;
