@@ -1,6 +1,5 @@
 using JOHHNYbeGOOD.Home.Engines.Hosting;
 using JOHHNYbeGOOD.Home.FeedingManager.Hosting;
-using JOHHNYbeGOOD.Home.Resources.Connectors;
 using JOHHNYbeGOOD.Home.Resources.Devices;
 using JOHHNYbeGOOD.Home.Resources.Hosting;
 using Microsoft.AspNetCore.Builder;
@@ -51,12 +50,14 @@ namespace JOHNNYbeGOOD.Home.Api
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseWebAssemblyDebugging();
             }
 
             app.UseHttpsRedirection();
+            app.UseBlazorFrameworkFiles();
+            app.UseStaticFiles();
 
             app.UseSwagger();
-
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/202002/swagger.json", "Feeder internal API - version 202002");
@@ -69,6 +70,7 @@ namespace JOHNNYbeGOOD.Home.Api
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapFallbackToFile("index.html");
             });
         }
     }
