@@ -34,7 +34,7 @@ tar -xzvf api.tar.gz -C ${EXTRACT_DIR}
 
 # --- SETUP PERMISSIONS ---
 info "Setting premisions JOHHNYbeGOOD.Home"
-$SUDO chown root:root ${EXTRACT_DIR}
+$SUDO chown -R root:root ${EXTRACT_DIR}
 $SUDO chmod 777 ${EXTRACT_DIR}/${SERVICE_FILE}
 
 # --- COPY FILES ---

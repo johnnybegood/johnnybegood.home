@@ -4,6 +4,8 @@ using Blazorise.Icons.FontAwesome;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.DependencyInjection;
+using JOHNNYbeGOOD.Home.Api.Contracts;
+using JOHNNYbeGOOD.Home.Client.Services;
 
 namespace JOHNNYbeGOOD.Home.Client
 {
@@ -24,6 +26,8 @@ namespace JOHNNYbeGOOD.Home.Client
             builder.RootComponents.Add<App>("app");
 
             builder.Services.AddBaseAddressHttpClient();
+
+            builder.Services.AddTransient<IFeedingService, FeedingServiceProxy>();
 
             await builder.Build().RunAsync();
         }

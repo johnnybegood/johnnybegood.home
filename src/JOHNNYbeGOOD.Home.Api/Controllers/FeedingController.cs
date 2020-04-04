@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Threading.Tasks;
-using JOHNNYbeGOOD.Home.Api.Models;
-using JOHNNYbeGOOD.Home.Model;
+using JOHNNYbeGOOD.Home.Api.Contracts;
+using JOHNNYbeGOOD.Home.Api.Contracts.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace JOHNNYbeGOOD.Home.Api.Controllers
 {
     [Route("/api/feeding")]
-    public class FeedingController : Controller
+    public class FeedingController : Controller, IFeedingService
     {
         private IFeedingManager _feedingManager;
 
@@ -24,16 +24,21 @@ namespace JOHNNYbeGOOD.Home.Api.Controllers
         /// Summary of the feeding
         /// </summary>
         [HttpGet()]
-        public async Task<ActionResult<FeedingSummary>> Summary()
+        public async Task<FeedingSummaryResponse> GetSummaryAsync()
         {
             var summary = await _feedingManager.FeedingSummary(DateTime.UtcNow);
-
-            return Ok(summary);
+            return new FeedingSummaryResponse
+            {
+                NextFeedingSlotName = summary.NextFeedingSlotName,
+                NextFeedingTime = summary.NextFeedingTime,
+                PreviousFeedingSlotName = summary.PreviousFeedingSlotName,
+                PreviousFeedingTime = summary.PreviousFeedingTime
+            };
         }
 
         /// <summary>
         /// Next feeding
-        /// </summary>
+        /// </summary>2
         [HttpGet("next")]
         public async Task<NextFeedingSlotResponse> GetNextFeedingAsync()
         {
@@ -51,7 +56,7 @@ namespace JOHNNYbeGOOD.Home.Api.Controllers
         /// Next feeding
         /// </summary>
         [HttpPost("feed")]
-        public async Task<ActionResult<FeedResponse>> PostFeed()
+        public async Task<FeedResponse> PostFeed()
         {
             var result = await _feedingManager.TryFeedAsync();
             var nextFeeding = await GetNextFeedingAsync();

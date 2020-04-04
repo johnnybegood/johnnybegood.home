@@ -1,17 +1,35 @@
 ﻿@page "/"
+@using JOHNNYbeGOOD.Home.Api.Contracts
+@using JOHNNYbeGOOD.Home.Api.Contracts.Models
+@inject IFeedingService service
 
-<section class="hero is-info welcome is-small">
-    <div class="hero-body">
-        <div class="container">
-            <h1 class="title">
-                99 hours until next feeding
-            </h1>
-            <h2 class="subtitle">
-                Laste feeding at 3 hours ago
-            </h2>
+@if (feedingSummary == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <section class="hero is-info welcome is-small">
+        <div class="hero-body">
+            <div class="container">
+                @if (feedingSummary.NextFeedingTime.HasValue)
+                {
+                    <h1 class="title">@feedingSummary.NextFeedingTime.Value.ComparedToNow() next feeding</h1>
+                }
+                else
+                {
+                    <h1 class="title">No next feeding scheduled</h1>
+                }
+
+                @if (feedingSummary.PreviousFeedingTime.HasValue)
+                {
+                    <h2 class="subtitle">Last feeding: @feedingSummary.PreviousFeedingTime.Value.ComparedToNow() ago</h2>
+                }
+                </div>
         </div>
-    </div>
-</section>
+    </section>
+}
+
 <section class="section">
     <div class="container">
         <div class="control">
@@ -20,3 +38,12 @@
     </div>
 </section>
 
+@code {
+    private FeedingSummaryResponse feedingSummary;
+
+    protected override async Task OnInitializedAsync()
+    {
+        feedingSummary = await service.GetSummaryAsync();
+    }
+
+}

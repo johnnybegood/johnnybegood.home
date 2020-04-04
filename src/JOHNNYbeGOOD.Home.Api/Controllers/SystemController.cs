@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq;
-using JOHNNYbeGOOD.Home.Api.Models;
+using JOHNNYbeGOOD.Home.Api.Contracts.Models;
 using JOHNNYbeGOOD.Home.Model.Devices;
 using JOHNNYbeGOOD.Home.Resources;
 using Microsoft.AspNetCore.Mvc;

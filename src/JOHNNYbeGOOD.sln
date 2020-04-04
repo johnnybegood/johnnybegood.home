@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JOHNNYbeGOOD.Home.Api", "JO
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JOHNNYbeGOOD.Home.Client", "JOHNNYbeGOOD.Home.Client\JOHNNYbeGOOD.Home.Client.csproj", "{7579C5B6-E61A-4EEA-BD6C-9D5196228B6E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JOHNNYbeGOOD.Home.Api.Contracts", "JOHNNYbeGOOD.Home.API.Contracts\JOHNNYbeGOOD.Home.Api.Contracts.csproj", "{D7D21702-7B55-4F8C-BDC6-31EB35EA7EC3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +53,10 @@ Global
 		{7579C5B6-E61A-4EEA-BD6C-9D5196228B6E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7579C5B6-E61A-4EEA-BD6C-9D5196228B6E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7579C5B6-E61A-4EEA-BD6C-9D5196228B6E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D7D21702-7B55-4F8C-BDC6-31EB35EA7EC3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D7D21702-7B55-4F8C-BDC6-31EB35EA7EC3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D7D21702-7B55-4F8C-BDC6-31EB35EA7EC3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D7D21702-7B55-4F8C-BDC6-31EB35EA7EC3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{5AE84357-441B-44AB-9A41-5E4B10C6B7BB} = {3AB912BD-4DE1-4766-9A8B-2D1E96AE7AE3}

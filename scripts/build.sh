@@ -30,20 +30,12 @@ cd ../src/JOHNNYbeGOOD.Home.Api
 dotnet publish -c release -r linux-arm -o ../../publish/api
 
 echo "-------------------------------------------------------"
-echo "[INFO] Generating publish build client"
-echo "-------------------------------------------------------"
-cd $DIR
-cd ../src/JOHNNYbeGOOD.Home.Client
-dotnet publish -c release -o ../../publish/client
-
-echo "-------------------------------------------------------"
 echo "[INFO] Preparing package"
 echo "-------------------------------------------------------"
 cd $DIR
 cd ../
 chmod 777 $DIR/install.sh
 cp $DIR/install.sh ./publish
-mv publish/client/JOHNNYbeGOOD.Home.Client/dist publish/api/wwwroot
 
 echo "-------------------------------------------------------"
 echo "[INFO] Compressing files"

@@ -3,6 +3,7 @@ Description=JOHNNYbeGOOD Feeder
 
 [Service]
 Type=notify
+WorkingDirectory=/usr/local/bin/johnnybegood
 ExecStart=/usr/local/bin/johnnybegood/JOHNNYbeGOOD.Home.Api
 
 [Install]
