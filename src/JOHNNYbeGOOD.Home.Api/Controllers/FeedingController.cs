@@ -21,9 +21,7 @@ namespace JOHNNYbeGOOD.Home.Api.Controllers
             _feedingManager = feedingManager;
         }
 
-        /// <summary>
-        /// Summary of the feeding
-        /// </summary>
+        /// <inheritdoc />
         [HttpGet()]
         public async Task<FeedingSummaryResponse> GetSummaryAsync()
         {
@@ -37,9 +35,7 @@ namespace JOHNNYbeGOOD.Home.Api.Controllers
             };
         }
 
-        /// <summary>
-        /// Next feeding
-        /// </summary>2
+        /// <inheritdoc />
         [HttpGet("next")]
         public async Task<NextFeedingSlotResponse> GetNextFeedingAsync()
         {
@@ -53,9 +49,7 @@ namespace JOHNNYbeGOOD.Home.Api.Controllers
             };
         }
 
-        /// <summary>
-        /// Next feeding
-        /// </summary>
+        /// <inheritdoc />
         [HttpPost("feed")]
         public async Task<FeedResponse> PostFeed()
         {
@@ -69,7 +63,7 @@ namespace JOHNNYbeGOOD.Home.Api.Controllers
             };
         }
 
-
+        /// <inheritdoc />
         [HttpGet("log")]
         public async Task<LogResponse[]> GetLog()
         {
@@ -91,6 +85,28 @@ namespace JOHNNYbeGOOD.Home.Api.Controllers
                 .ToArray();
 
             return responses;
+        }
+
+        /// <inheritdoc />
+        [HttpGet("schedule")]
+        public async Task<ScheduleResponse> GetCurrentSchedule()
+        {
+            var schedule = await _feedingManager.RetrieveSchedule();
+            var slots = schedule.Slots
+                .Select(s => new ScheduleResponseSlot
+                {
+                    Hour = s.TimeOfDay.Hours,
+                    Minutes = s.TimeOfDay.Minutes,
+                    OnMonday = s.DayOfWeek.HasFlag(DayOfWeek.Monday),
+                    OnTuesday = s.DayOfWeek.HasFlag(DayOfWeek.Tuesday),
+                    OnWednesday = s.DayOfWeek.HasFlag(DayOfWeek.Wednesday),
+                    OnThursday = s.DayOfWeek.HasFlag(DayOfWeek.Thursday),
+                    OnFriday = s.DayOfWeek.HasFlag(DayOfWeek.Friday),
+                    OnSaturday = s.DayOfWeek.HasFlag(DayOfWeek.Saturday),
+                    OnSunday = s.DayOfWeek.HasFlag(DayOfWeek.Sunday)
+                });
+
+            return new ScheduleResponse { Slots = slots.ToList() };
         }
     }
 }

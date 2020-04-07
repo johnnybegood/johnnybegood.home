@@ -1,0 +1,86 @@
+﻿@page "/schedule"
+@using JOHNNYbeGOOD.Home.Api.Contracts
+@using JOHNNYbeGOOD.Home.Api.Contracts.Models
+@inject IFeedingService service
+
+@if (schedule == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    if (!slots.Any())
+    {
+        <Alert Color="Color.Warning">No schedule defined</Alert>
+    }
+
+    <Button Color="Color.Link" Clicked="@AddSlot">Add slot</Button>
+
+    foreach(var slot in slots)
+    {
+        <Card Margin="Margin.Is1" @key="@slot.Id" ColumnSize="ColumnSize.Is5.OnDesktop.Is3.OnMobile">
+            <CardHeader>
+                <CardTitle>Slot @slot.Id</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <Fields ColumnSize="ColumnSize.Is4">
+                    <Field ColumnSize="ColumnSize.Is2">
+                        <FieldLabel>Hours</FieldLabel>
+                        <FieldBody>
+                            <NumericEdit Placeholder="HH" Value="@slot.Hour" Decimals="0" />
+                        </FieldBody>
+                    </Field>
+                    <Field ColumnSize="ColumnSize.Is2">
+                        <FieldLabel>Minutes</FieldLabel>
+                        <FieldBody>
+                            <NumericEdit Placeholder="MM" Value="@slot.Minutes" Decimals="0" />
+                        </FieldBody>
+                    </Field>
+                </Fields>
+                <Field>
+                    <FieldLabel>Days</FieldLabel>
+                    <FieldBody>
+                        <CheckEdit Checked="@slot.OnMonday">Monday</CheckEdit>
+                        <CheckEdit Checked="@slot.OnTuesday">Tuesday</CheckEdit>
+                        <CheckEdit Checked="@slot.OnWednesday">Wednesday</CheckEdit>
+                        <CheckEdit Checked="@slot.OnThursday">Thursday</CheckEdit>
+                        <CheckEdit Checked="@slot.OnFriday">Friday</CheckEdit>
+                        <CheckEdit Checked="@slot.OnSaturday">Saturday</CheckEdit>
+                        <CheckEdit Checked="@slot.OnSunday">Sunday</CheckEdit>
+                    </FieldBody>
+                </Field>
+            </CardBody>
+            <CardFooter>
+                <Button Color="Color.Danger">Delete slot</Button>
+            </CardFooter>
+        </Card>
+    }
+}
+
+@code {
+    private ScheduleResponse schedule;
+    private IList<ScheduleResponseSlot> slots;
+
+    private void AddSlot()
+    {
+        slots.Add(new ScheduleResponseSlot
+        {
+            Id = slots.Count,
+            Hour = DateTime.Now.AddHours(1).Hour,
+            Minutes = 0,
+            OnMonday = true,
+            OnTuesday = true,
+            OnWednesday = true,
+            OnThursday = true,
+            OnFriday = true,
+            OnSaturday = true,
+            OnSunday = true
+        });
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        schedule = await service.GetCurrentSchedule();
+        slots = schedule.Slots?.ToList();
+    }
+}

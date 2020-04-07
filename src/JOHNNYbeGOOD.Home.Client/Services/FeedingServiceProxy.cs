@@ -15,26 +15,37 @@ namespace JOHNNYbeGOOD.Home.Client.Services
             _httpClient = client;
         }
 
+        /// <inheritdoc />
+        public Task<ScheduleResponse> GetCurrentSchedule()
+        {
+            return _httpClient.GetJsonAsync<ScheduleResponse>("api/feeding/schedule");
+        }
+
+        /// <inheritdoc />
         public Task<LogResponse[]> GetLog()
         {
             return _httpClient.GetJsonAsync<LogResponse[]>("api/feeding/log");
         }
 
+        /// <inheritdoc />
         public Task<NextFeedingSlotResponse> GetNextFeedingAsync()
         {
             return _httpClient.GetJsonAsync<NextFeedingSlotResponse>("api/feeding");
         }
 
+        /// <inheritdoc />
         public Task<StatusResponse[]> GetStatus()
         {
             return _httpClient.GetJsonAsync<StatusResponse[]>("api/system/status");
         }
 
+        /// <inheritdoc />
         public Task<FeedingSummaryResponse> GetSummaryAsync()
         {
             return _httpClient.GetJsonAsync<FeedingSummaryResponse>("api/feeding/next");
         }
 
+        /// <inheritdoc />
         public Task<FeedResponse> PostFeed()
         {
             return _httpClient.PostJsonAsync<FeedResponse>("api/feeding/feed", null);

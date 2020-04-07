@@ -15,6 +15,6 @@ namespace JOHNNYbeGOOD.Home.Model
         /// <summary>
         /// Slots of the schedule
         /// </summary>
-        public ICollection<ScheduleSlot> Slots { get; set; }
+        public ICollection<ScheduleSlot> Slots { get; set; } = new List<ScheduleSlot>();
     }
 }
