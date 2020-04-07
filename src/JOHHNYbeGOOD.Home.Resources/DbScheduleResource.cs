@@ -6,6 +6,7 @@ using JOHNNYbeGOOD.Home.Model;
 using JOHNNYbeGOOD.Home.Models;
 using JOHNNYbeGOOD.Home.Resources;
 using LiteDB;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
 namespace JOHHNYbeGOOD.Home.Resources
@@ -15,16 +16,18 @@ namespace JOHHNYbeGOOD.Home.Resources
         private readonly LiteDatabase _db;
         private readonly ILiteCollection<Schedule> _scheduleCollection;
         private readonly ILiteCollection<FeedingLog> _logCollection;
+        private readonly ILogger<RPiThingsResource> _logger;
 
         /// <summary>
         /// Default constructor for <see cref="DbScheduleResource"/>
         /// </summary>
         /// <param name="options"></param>
-        public DbScheduleResource(IOptionsSnapshot<ScheduleResourceOptions> options)
+        public DbScheduleResource(IOptionsSnapshot<ScheduleResourceOptions> options, ILogger<RPiThingsResource> logger)
         {
             _db = new LiteDatabase(options.Value.ConnectionString);
             _scheduleCollection = _db.GetCollection<Schedule>();
             _logCollection = _db.GetCollection<FeedingLog>();
+            _logger = logger;
         }
 
         /// <inheritdoc />
@@ -96,7 +99,11 @@ namespace JOHHNYbeGOOD.Home.Resources
         /// <returns></returns>
         private Task LogFeeding(FeedingLog item)
         {
-            return Task.Run(() => _logCollection.Insert(item));
+            var id = _logCollection.Insert(item);
+
+            _logger.LogDebug("Inserted new feeding log with id {id}", id);
+
+            return Task.CompletedTask;
         }
 
         #region IDisposable Support
