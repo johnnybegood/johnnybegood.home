@@ -28,6 +28,7 @@ namespace JOHNNYbeGOOD.Home.Client
             builder.Services.AddBaseAddressHttpClient();
 
             builder.Services.AddTransient<IFeedingService, FeedingServiceProxy>();
+            builder.Services.AddTransient<ISystemService, FeedingServiceProxy>();
 
             await builder.Build().RunAsync();
         }

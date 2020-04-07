@@ -1,0 +1,50 @@
+﻿@page "/status"
+@using JOHNNYbeGOOD.Home.Api.Contracts
+@using JOHNNYbeGOOD.Home.Api.Contracts.Models
+@inject ISystemService service
+
+@if (status == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <Table IsStriped="true">
+        <TableHeader>
+            <TableRow>
+                <TableHeaderCell>#</TableHeaderCell>
+                <TableHeaderCell>Type</TableHeaderCell>
+                <TableHeaderCell>Connected</TableHeaderCell>
+                <TableHeaderCell>State</TableHeaderCell>
+            </TableRow>
+        </TableHeader>
+        <TableBody>
+            @foreach (var item in status)
+            {
+            <TableRow>
+                <TableRowHeader>@item.Device</TableRowHeader>
+                <TableRowCell>@item.DeviceType</TableRowCell>
+                <TableRowCell>@item.Connected</TableRowCell>
+                <TableRowCell>
+                    @item.State.ToString()
+
+                    @if (string.IsNullOrEmpty(item.Description))
+                    {
+                        <em class="has-text-light">@item.Description</em>
+                   }
+                </TableRowCell>
+            </TableRow>
+            }
+        </TableBody>
+    </Table>
+
+}
+
+@code {
+    private StatusResponse[] status;
+
+    protected override async Task OnInitializedAsync()
+    {
+        status = await service.GetStatus();
+    }
+}

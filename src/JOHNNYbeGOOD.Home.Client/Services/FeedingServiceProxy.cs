@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace JOHNNYbeGOOD.Home.Client.Services
 {
-    public class FeedingServiceProxy : IFeedingService
+    public class FeedingServiceProxy : IFeedingService, ISystemService
     {
         private readonly HttpClient _httpClient;
 
@@ -15,9 +15,19 @@ namespace JOHNNYbeGOOD.Home.Client.Services
             _httpClient = client;
         }
 
+        public Task<LogResponse[]> GetLog()
+        {
+            return _httpClient.GetJsonAsync<LogResponse[]>("api/feeding/log");
+        }
+
         public Task<NextFeedingSlotResponse> GetNextFeedingAsync()
         {
             return _httpClient.GetJsonAsync<NextFeedingSlotResponse>("api/feeding");
+        }
+
+        public Task<StatusResponse[]> GetStatus()
+        {
+            return _httpClient.GetJsonAsync<StatusResponse[]>("api/system/status");
         }
 
         public Task<FeedingSummaryResponse> GetSummaryAsync()
