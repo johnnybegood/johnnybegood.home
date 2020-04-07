@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using JOHNNYbeGOOD.Home.Engines;
 using JOHNNYbeGOOD.Home.Model;
+using JOHNNYbeGOOD.Home.Models;
 using JOHNNYbeGOOD.Home.Resources;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -51,6 +52,7 @@ namespace JOHNNYbeGOOD.Home.FeedingManager
             var candidate = (FeedingSlot) NextFeedingSlot();
             if (candidate == null)
             {
+                await _scheduleResource.LogFailedFeeding("Skipped feeding", DateTime.Now, "No available gate for feeding");
                 _logger.LogWarning("No candidate slot found for feeding");
                 return FeedingResult.Failed();
             }
@@ -102,6 +104,12 @@ namespace JOHNNYbeGOOD.Home.FeedingManager
                 PreviousFeedingSlotName = lastFeeding?.Description,
                 PreviousFeedingTime = lastFeeding?.Timestamp
             };
+        }
+
+        /// <inheritdoc />
+        public Task<FeedingLogCollection> RetrieveFeedingLog()
+        {
+            return _scheduleResource.RetrieveFeedingLog();
         }
     }
 }

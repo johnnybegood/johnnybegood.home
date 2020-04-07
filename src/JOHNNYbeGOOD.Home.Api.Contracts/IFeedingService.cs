@@ -11,5 +11,6 @@ namespace JOHNNYbeGOOD.Home.Api.Contracts
         Task<NextFeedingSlotResponse> GetNextFeedingAsync();
         Task<FeedResponse> PostFeed();
         Task<FeedingSummaryResponse> GetSummaryAsync();
+        Task<LogResponse[]> GetLog();
     }
 }

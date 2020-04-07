@@ -1,0 +1,43 @@
+﻿@page "/log"
+@using JOHNNYbeGOOD.Home.Api.Contracts
+@using JOHNNYbeGOOD.Home.Api.Contracts.Models
+@inject IFeedingService service
+
+@if (logs == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <Table IsStriped="true">
+        <TableHeader>
+            <TableRow>
+                <TableHeaderCell>#</TableHeaderCell>
+                <TableHeaderCell>Timestamp</TableHeaderCell>
+                <TableHeaderCell>Description</TableHeaderCell>
+                <TableHeaderCell>Cause</TableHeaderCell>
+            </TableRow>
+        </TableHeader>
+        <TableBody>
+            @foreach (var log in logs)
+            {
+            <TableRow>
+                <TableRowHeader>@log.DisplayId</TableRowHeader>
+                <TableRowCell>@log.Timestamp</TableRowCell>
+                <TableRowCell>@log.Description</TableRowCell>
+                <TableRowCell>@log.Cause</TableRowCell>
+            </TableRow>
+            }
+        </TableBody>
+    </Table>
+
+}
+
+@code {
+    private LogResponse[] logs;
+
+    protected override async Task OnInitializedAsync()
+    {
+        logs = await service.GetLog();
+    }
+}

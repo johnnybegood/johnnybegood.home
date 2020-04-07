@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using JOHNNYbeGOOD.Home.Api.Contracts;
 using JOHNNYbeGOOD.Home.Api.Contracts.Models;
@@ -66,6 +67,30 @@ namespace JOHNNYbeGOOD.Home.Api.Controllers
                 Succeeded = result.Succeeded,
                 NextFeeding = nextFeeding
             };
+        }
+
+
+        [HttpGet("log")]
+        public async Task<LogResponse[]> GetLog()
+        {
+            var log = await _feedingManager
+                .RetrieveFeedingLog();
+
+            var responses = log
+                .Items
+                .OrderByDescending(i => i.Timestamp)
+                .Take(50)
+                .Select(l => new LogResponse
+                {
+                    Id = l.Id,
+                    DisplayId = l.Id.Substring(0, 8),
+                    Result = l.Result.ToString(),
+                    Cause = l.Cause,
+                    Timestamp = l.Timestamp
+                })
+                .ToArray();
+
+            return responses;
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using JOHNNYbeGOOD.Home.Model;
+using JOHNNYbeGOOD.Home.Models;
 
 namespace JOHNNYbeGOOD.Home
 {
@@ -46,5 +47,10 @@ namespace JOHNNYbeGOOD.Home
         /// <param name="afterDateTime">The date time to calculate the next feeding time from</param>
         /// <returns>The date time of the next feeding.</returns>
         Task<DateTime?> NextFeedingTime(DateTimeOffset afterDateTime);
+
+        /// <summary>
+        /// Retrieve the feeding
+        /// </summary>
+        Task<FeedingLogCollection> RetrieveFeedingLog();
     }
 }
