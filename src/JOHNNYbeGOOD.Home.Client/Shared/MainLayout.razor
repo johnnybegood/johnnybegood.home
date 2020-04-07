@@ -1,33 +1,23 @@
 ﻿@inherits LayoutComponentBase
 
-<nav class="navbar is-white">
-    <div class="container">
-        <div class="navbar-brand">
-            <a class="navbar-item brand-text" href="/">
-                🐴 Feeder
-            </a>
-            <div class="navbar-burger burger" data-target="navMenu">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
-        </div>
-    </div>
-</nav>
+<Bar Background="Background.Light" Breakpoint="Breakpoint.Mobile">
+    <BarBrand>
+        <BarItem>🐴 Feeder</BarItem>
+    </BarBrand>
+    <BarMenu>
+        <BarStart>
+            <BarLink To="" Match="Match.All">Home</BarLink>
+            <BarLink To="Schedule">Schedule</BarLink>
+            <BarLink To="log">Log</BarLink>
+        </BarStart>
+        <BarEnd>
+            <BarLink To="status">Status</BarLink>
+        </BarEnd>
+    </BarMenu>
+</Bar>
 
-<div class="container">
-    <div class="columns">
-        <div class="column is-3">
-            <NavMenu />
-        </div>
-        <div class="column is-9">
-            @Body
-        </div>
+<div class="app">
+    <div class="container">
+        @Body
     </div>
 </div>
-
-<footer class="footer">
-    <div class="content has-text-centered">
-        <p>🐴 Feeder - JOHNNYbeGOOD</p>
-    </div>
-</footer>

@@ -3,13 +3,16 @@
 @using JOHNNYbeGOOD.Home.Api.Contracts.Models
 @inject IFeedingService service
 
+<Alert @ref="successAlert" Color="Color.Success">Feeding succeeded</Alert>
+<Alert @ref="failedAlert" Color="Color.Danger" IsDismisable="true"><strong>Feeding failed</strong>, @failureMessage <CloseButton /></Alert>
+
 @if (feedingSummary == null)
 {
     <p><em>Loading...</em></p>
 }
 else
 {
-    <section class="hero is-info welcome is-small">
+    <section class="hero is-primary welcome is-bold">
         <div class="hero-body">
             <div class="container">
                 @if (feedingSummary.NextFeedingTime.HasValue)
@@ -33,17 +36,61 @@ else
 <section class="section">
     <div class="container">
         <div class="control">
-            <button type="submit" class="button is-link has-text-weight-medium is-medium">Feed now</button>
+            <button type="submit" class="button is-link has-text-weight-medium is-medium @(isFeeding?"is-loading":"")" @onclick="FeedNowAsync" disabled="@isFeeding">Feed now</button>
         </div>
     </div>
 </section>
 
 @code {
     private FeedingSummaryResponse feedingSummary;
+    private bool isFeeding;
+    private Alert successAlert;
+    private Alert failedAlert;
+    private string failureMessage;
 
     protected override async Task OnInitializedAsync()
     {
         feedingSummary = await service.GetSummaryAsync();
+    }
+
+    private async Task ShowSuccess()
+    {
+        successAlert.Show();
+        await Task.Delay(2000);
+        successAlert.Hide();
+    }
+
+    private void ShowFailure(string message)
+    {
+        failureMessage = message;
+        failedAlert.Show();
+    }
+
+    private async Task FeedNowAsync()
+    {
+        isFeeding = true;
+        try
+        {
+            var response = await service.PostFeed();
+            isFeeding = false;
+
+            if (response.Succeeded)
+            {
+                await ShowSuccess();
+            }
+            else
+            {
+                ShowFailure("issue with the gate opening");
+            }
+        }
+        catch (Exception ex)
+        {
+            ShowFailure($"unable to open gate - {ex.Message}");
+        }
+        finally
+        {
+            isFeeding = false;
+        }
     }
 
 }
