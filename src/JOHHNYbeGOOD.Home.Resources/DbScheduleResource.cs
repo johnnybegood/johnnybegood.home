@@ -39,7 +39,7 @@ namespace JOHHNYbeGOOD.Home.Resources
         /// <inheritdoc />
         public Task StoreSchedule(string id, Schedule schedule)
         {
-            return Task.Run(() => _scheduleCollection.Insert(id, schedule));
+            return Task.Run(() => _scheduleCollection.Upsert(id, schedule));
         }
 
         /// <inheritdoc />

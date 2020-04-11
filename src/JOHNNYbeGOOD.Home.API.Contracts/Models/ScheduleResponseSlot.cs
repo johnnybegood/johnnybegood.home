@@ -1,7 +1,7 @@
 ﻿namespace JOHNNYbeGOOD.Home.Api.Contracts.Models
 {
     /// <summary>
-    /// Slot of a <see cref="ScheduleResponse"/>
+    /// Slot of a <see cref="ScheduleDTO"/>
     /// </summary>
     public class ScheduleResponseSlot
     {

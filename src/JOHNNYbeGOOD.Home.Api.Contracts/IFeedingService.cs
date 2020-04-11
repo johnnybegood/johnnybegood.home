@@ -36,6 +36,11 @@ namespace JOHNNYbeGOOD.Home.Api.Contracts
         /// Retrieve the current active schedule of the feeder
         /// </summary>
         /// <returns>The active schedule of the feeder</returns>
-        Task<ScheduleResponse> GetCurrentSchedule();
+        Task<ScheduleDTO> GetCurrentSchedule();
+
+        /// <summary>
+        /// Put a new version of the schedule of the feeder
+        /// </summary>
+        Task PutCurrentSchedule(ScheduleDTO schedule);
     }
 }

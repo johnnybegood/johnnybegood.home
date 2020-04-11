@@ -16,9 +16,9 @@ namespace JOHNNYbeGOOD.Home.Client.Services
         }
 
         /// <inheritdoc />
-        public Task<ScheduleResponse> GetCurrentSchedule()
+        public Task<ScheduleDTO> GetCurrentSchedule()
         {
-            return _httpClient.GetJsonAsync<ScheduleResponse>("api/feeding/schedule");
+            return _httpClient.GetJsonAsync<ScheduleDTO>("api/feeding/schedule");
         }
 
         /// <inheritdoc />
@@ -49,6 +49,12 @@ namespace JOHNNYbeGOOD.Home.Client.Services
         public Task<FeedResponse> PostFeed()
         {
             return _httpClient.PostJsonAsync<FeedResponse>("api/feeding/feed", null);
+        }
+
+        /// <inheritdoc />
+        public Task PutCurrentSchedule(ScheduleDTO schedule)
+        {
+            return _httpClient.PutJsonAsync("api/feeding/schedule", schedule);
         }
     }
 }

@@ -9,57 +9,63 @@
 }
 else
 {
+    <Alert @ref="failedAlert" Color="Color.Danger"><strong>Saving schedule failed</strong>, @failureMessage <CloseButton /></Alert>
+
+    <Button Color="Color.Primary" Clicked="@SaveSchedule" IsLoading="isSaving">Save</Button>
+    <Button Color="Color.Secondary" Clicked="@AddSlot" IsDisabled="isSaving">Add slot</Button>
+
     if (!slots.Any())
     {
         <Alert Color="Color.Warning">No schedule defined</Alert>
     }
 
-    <Button Color="Color.Link" Clicked="@AddSlot">Add slot</Button>
-
-    foreach(var slot in slots)
+    foreach (var slot in slots)
     {
-        <Card Margin="Margin.Is1" @key="@slot.Id" ColumnSize="ColumnSize.Is5.OnDesktop.Is3.OnMobile">
+        <Card Margin="Margin.Is2" @key="@slot.Id">
             <CardHeader>
                 <CardTitle>Slot @slot.Id</CardTitle>
             </CardHeader>
             <CardBody>
-                <Fields ColumnSize="ColumnSize.Is4">
+                <Fields>
                     <Field ColumnSize="ColumnSize.Is2">
                         <FieldLabel>Hours</FieldLabel>
                         <FieldBody>
-                            <NumericEdit Placeholder="HH" Value="@slot.Hour" Decimals="0" />
+                            <NumericEdit Placeholder="HH" @bind-Value="@slot.Hour" Decimals="0" IsDisabled="isSaving" />
                         </FieldBody>
                     </Field>
                     <Field ColumnSize="ColumnSize.Is2">
                         <FieldLabel>Minutes</FieldLabel>
                         <FieldBody>
-                            <NumericEdit Placeholder="MM" Value="@slot.Minutes" Decimals="0" />
+                            <NumericEdit Placeholder="MM" @bind-Value="@slot.Minutes" Decimals="0" IsDisabled="isSaving" />
                         </FieldBody>
                     </Field>
                 </Fields>
                 <Field>
                     <FieldLabel>Days</FieldLabel>
                     <FieldBody>
-                        <CheckEdit Checked="@slot.OnMonday">Monday</CheckEdit>
-                        <CheckEdit Checked="@slot.OnTuesday">Tuesday</CheckEdit>
-                        <CheckEdit Checked="@slot.OnWednesday">Wednesday</CheckEdit>
-                        <CheckEdit Checked="@slot.OnThursday">Thursday</CheckEdit>
-                        <CheckEdit Checked="@slot.OnFriday">Friday</CheckEdit>
-                        <CheckEdit Checked="@slot.OnSaturday">Saturday</CheckEdit>
-                        <CheckEdit Checked="@slot.OnSunday">Sunday</CheckEdit>
+                        <CheckEdit @bind-Checked="@slot.OnMonday" IsDisabled="isSaving">Monday</CheckEdit>
+                        <CheckEdit @bind-Checked="@slot.OnTuesday" IsDisabled="isSaving">Tuesday</CheckEdit>
+                        <CheckEdit @bind-Checked="@slot.OnWednesday" IsDisabled="isSaving">Wednesday</CheckEdit>
+                        <CheckEdit @bind-Checked="@slot.OnThursday" IsDisabled="isSaving">Thursday</CheckEdit>
+                        <CheckEdit @bind-Checked="@slot.OnFriday" IsDisabled="isSaving">Friday</CheckEdit>
+                        <CheckEdit @bind-Checked="@slot.OnSaturday" IsDisabled="isSaving">Saturday</CheckEdit>
+                        <CheckEdit @bind-Checked="@slot.OnSunday" IsDisabled="isSaving">Sunday</CheckEdit>
                     </FieldBody>
                 </Field>
             </CardBody>
             <CardFooter>
-                <Button Color="Color.Danger">Delete slot</Button>
+                <Button Color="Color.Danger" IsDisabled="isSaving">Delete slot</Button>
             </CardFooter>
         </Card>
     }
 }
 
 @code {
-    private ScheduleResponse schedule;
+    private ScheduleDTO schedule;
     private IList<ScheduleResponseSlot> slots;
+    private bool isSaving;
+    private Alert failedAlert;
+    private string failureMessage;
 
     private void AddSlot()
     {
@@ -78,7 +84,37 @@ else
         });
     }
 
-    protected override async Task OnInitializedAsync()
+    private void ShowFailure(string message)
+    {
+        failureMessage = message;
+        failedAlert.Show();
+    }
+
+    private async Task SaveSchedule()
+    {
+        isSaving = true;
+
+        try
+        {
+            await service.PutCurrentSchedule(new ScheduleDTO { Slots = slots });
+            await LoadSchedule();
+        }
+        catch (Exception ex)
+        {
+            ShowFailure($"{ex.Message}");
+        }
+        finally
+        {
+            isSaving = false;
+        }
+    }
+
+    protected override Task OnInitializedAsync()
+    {
+        return LoadSchedule();
+    }
+
+    private async Task LoadSchedule()
     {
         schedule = await service.GetCurrentSchedule();
         slots = schedule.Slots?.ToList();

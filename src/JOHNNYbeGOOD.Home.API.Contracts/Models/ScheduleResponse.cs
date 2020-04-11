@@ -2,7 +2,7 @@
 
 namespace JOHNNYbeGOOD.Home.Api.Contracts.Models
 {
-    public class ScheduleResponse
+    public class ScheduleDTO
     {
         /// <summary>
         /// Slots of the schedule
