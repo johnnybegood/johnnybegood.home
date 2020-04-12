@@ -2,7 +2,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
-using JOHNNYbeGOOD.Home.Api.Contracts;
 using JOHNNYbeGOOD.Home.Api.Contracts.Models;
 using JOHNNYbeGOOD.Home.Model;
 using Microsoft.AspNetCore.Mvc;

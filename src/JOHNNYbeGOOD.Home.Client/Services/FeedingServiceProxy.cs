@@ -30,7 +30,7 @@ namespace JOHNNYbeGOOD.Home.Client.Services
         /// <inheritdoc />
         public Task<NextFeedingSlotResponse> GetNextFeedingAsync()
         {
-            return _httpClient.GetJsonAsync<NextFeedingSlotResponse>("api/feeding");
+            return _httpClient.GetJsonAsync<NextFeedingSlotResponse>("api/feeding/next");
         }
 
         /// <inheritdoc />
@@ -42,7 +42,7 @@ namespace JOHNNYbeGOOD.Home.Client.Services
         /// <inheritdoc />
         public Task<FeedingSummaryResponse> GetSummaryAsync()
         {
-            return _httpClient.GetJsonAsync<FeedingSummaryResponse>("api/feeding/next");
+            return _httpClient.GetJsonAsync<FeedingSummaryResponse>("api/feeding");
         }
 
         /// <inheritdoc />

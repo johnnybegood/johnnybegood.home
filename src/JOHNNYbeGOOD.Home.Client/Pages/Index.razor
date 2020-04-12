@@ -12,23 +12,32 @@
 }
 else
 {
-    <section class="hero is-primary welcome is-bold">
+    <section class="hero welcome is-bold @heroClass">
         <div class="hero-body">
             <div class="container">
                 @if (feedingSummary.NextFeedingTime.HasValue)
                 {
-                    <h1 class="title">@feedingSummary.NextFeedingTime.Value.ComparedToNow() next feeding</h1>
+                    <h1 class="title">@feedingSummary.NextFeedingTime.Value.ComparedToNow() until next feeding</h1>
+
+                    @if (string.IsNullOrWhiteSpace(feedingSummary.NextFeedingSlotName))
+                    {
+                        <p class="subtitle">All flaps empty</p>
+                    }
+                    else
+                    {
+                        <h2 class="subtitle">Using @feedingSummary.NextFeedingSlotName</h2>
+                    }
                 }
                 else
                 {
-                    <h1 class="title">No next feeding scheduled</h1>
+                <h1 class="title">No next feeding scheduled</h1>
                 }
 
                 @if (feedingSummary.PreviousFeedingTime.HasValue)
                 {
                     <h2 class="subtitle">Last feeding: @feedingSummary.PreviousFeedingTime.Value.ComparedToNow() ago</h2>
                 }
-                </div>
+</div>
         </div>
     </section>
 }
@@ -47,10 +56,22 @@ else
     private Alert successAlert;
     private Alert failedAlert;
     private string failureMessage;
+    private string heroClass;
 
     protected override async Task OnInitializedAsync()
     {
         feedingSummary = await service.GetSummaryAsync();
+
+        heroClass = "is-primary";
+
+        if(!feedingSummary.NextFeedingTime.HasValue)
+        {
+            heroClass = "is-light";
+        }
+        else if (string.IsNullOrWhiteSpace(feedingSummary.NextFeedingSlotName))
+        {
+            heroClass = "is-warning";
+        }
     }
 
     private async Task ShowSuccess()
