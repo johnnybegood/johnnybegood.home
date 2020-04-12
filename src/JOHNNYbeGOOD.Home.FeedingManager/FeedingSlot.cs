@@ -22,7 +22,7 @@ namespace JOHNNYbeGOOD.Home.FeedingManager
         /// <param name="thingsResource"></param>
         public FeedingSlot(FeedingSlotOptions options, IEnumerable<FeedingSlot> dependendSlots,IThingsResource thingsResource)
         {
-            _gate = thingsResource.GetDevice<IGateDevice>(options.GateId);
+            _gate = thingsResource.GetDevice<IGateDevice>(options.FlapId);
             _sensor = thingsResource.GetDevice<IDigitalSensor>(options.SensorId);
             _dependendSlots = dependendSlots == null ? new FeedingSlot[0] : dependendSlots.ToArray();
 
@@ -42,10 +42,10 @@ namespace JOHNNYbeGOOD.Home.FeedingManager
         }
 
         /// <summary>
-        /// Check if the gate is closed
+        /// Check if the flap is closed
         /// </summary>
         /// <returns></returns>
-        public bool SlotClosed()
+        public bool FlapClosed()
         {
             return _sensor.Read();
         }
@@ -56,21 +56,21 @@ namespace JOHNNYbeGOOD.Home.FeedingManager
         /// <returns></returns>
         public bool CanOpen()
         {
-            return SlotClosed() && !_dependendSlots.Any(s => s.SlotClosed());
+            return FlapClosed() && !_dependendSlots.Any(s => s.FlapClosed());
         }
 
         /// <summary>
         /// Try to open the slot
         /// </summary>
         /// <returns></returns>
-        public bool TryOpenGate()
+        public bool TryOpenFlap()
         {
             if (CanOpen())
             {
                 _gate.OpenGateAsync();
             }
 
-            return !SlotClosed();
+            return !FlapClosed();
         }
     }
 }

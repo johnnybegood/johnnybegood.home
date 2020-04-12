@@ -59,7 +59,7 @@ namespace JOHNNYbeGOOD.Home.FeedingManager
 
             _logger.LogDebug("Openening feeding slot {slot}", candidate.Name);
 
-            if (candidate.TryOpenGate())
+            if (candidate.TryOpenFlap())
             {
                 await _scheduleResource.LogFeeding(candidate.Name, DateTime.Now);
                 return FeedingResult.Success(candidate.Name);

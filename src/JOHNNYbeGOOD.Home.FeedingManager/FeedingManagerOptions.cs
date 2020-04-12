@@ -12,15 +12,15 @@ namespace JOHNNYbeGOOD.Home.FeedingManager
         /// Add a slot to the feeding manager
         /// </summary>
         /// <param name="name">Name of the slot</param>
-        /// <param name="gate">Id of the gate</param>
+        /// <param name="flap">Id of the gate</param>
         /// <param name="sensor">Id of the sensor</param>
         /// <returns></returns>
-        public FeedingManagerOptions AddSlot(string name, string gate, string sensor)
+        public FeedingManagerOptions AddSlot(string name, string flap, string sensor)
         {
             FeedingSlots.Add(new FeedingSlotOptions
             {
                 Name = name,
-                GateId = gate,
+                FlapId = flap,
                 SensorId = sensor
             });
 
