@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using JOHNNYbeGOOD.Home.FeedingManager;
 using JOHNNYbeGOOD.Home.Model.Devices;
 using JOHNNYbeGOOD.Home.Resources;
+using JOHNNYbeGOOD.Home.Tests.UnitTests.Helpers;
 using Moq;
 using Moq.AutoMock;
 using Xunit;
@@ -14,29 +15,11 @@ namespace JOHNNYbeGOOD.Home.Tests.UnitTests.Managers
     {
         private readonly AutoMocker _mocker = new AutoMocker();
 
-        private FeedingSlot CreateSlotWithSensor(string name, Mock<IDigitalSensor> sensor)
-        {
-            return new FeedingSlot(name,
-                        _mocker.Get<IGateDevice>(),
-                        sensor.Object,
-                        Enumerable.Empty<FeedingSlot>(),
-                        _mocker.Get<IThingsResource>());
-        }
-
-        private FeedingSlot CreateSlotWithGateAndSensor(string name, Mock<IGateDevice> gate, Mock<IDigitalSensor> sensor)
-        {
-            return new FeedingSlot(name,
-                        gate.Object,
-                        sensor.Object,
-                        Enumerable.Empty<FeedingSlot>(),
-                        _mocker.Get<IThingsResource>());
-        }
-
         [Fact]
         public void GetsNextSlotForSingleClosedSlot()
         {
             var sensor = _mocker.GetMock<IDigitalSensor>();
-            var slot = CreateSlotWithSensor("dummy", sensor);
+            var slot = _mocker.GetSlotWithSensor("dummy", sensor);
 
             sensor.Setup(s => s.Read())
                 .Returns(true)
@@ -57,7 +40,7 @@ namespace JOHNNYbeGOOD.Home.Tests.UnitTests.Managers
             var mocker = new AutoMocker();
             var sensor = mocker.GetMock<IDigitalSensor>();
 
-            var slot = CreateSlotWithSensor("dummy", sensor);
+            var slot = _mocker.GetSlotWithSensor("dummy", sensor);
 
             sensor.Setup(s => s.Read())
                 .Returns(false)
@@ -80,7 +63,7 @@ namespace JOHNNYbeGOOD.Home.Tests.UnitTests.Managers
             var gate = mocker.GetMock<IGateDevice>();
             var isClosed = true;
 
-            var slot = CreateSlotWithGateAndSensor("dummy", gate, sensor);
+            var slot = _mocker.GetSlotWithGateAndSensor("dummy", gate, sensor);
 
             gate
                 .Setup(g => g.OpenGateAsync())
@@ -109,7 +92,7 @@ namespace JOHNNYbeGOOD.Home.Tests.UnitTests.Managers
             var mocker = new AutoMocker();
             var sensor = mocker.GetMock<IDigitalSensor>();
 
-            var slot = CreateSlotWithSensor("dummy", sensor);
+            var slot = _mocker.GetSlotWithSensor("dummy", sensor);
 
             sensor.Setup(s => s.Read())
                 .Returns(false)
@@ -132,7 +115,7 @@ namespace JOHNNYbeGOOD.Home.Tests.UnitTests.Managers
             var mocker = new AutoMocker();
             var sensor = mocker.GetMock<IDigitalSensor>();
 
-            var slot = CreateSlotWithSensor("dummy", sensor);
+            var slot = _mocker.GetSlotWithSensor("dummy", sensor);
 
             sensor.Setup(s => s.Read())
                 .Returns(true)

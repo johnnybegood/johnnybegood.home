@@ -17,6 +17,12 @@ namespace JOHNNYbeGOOD.Home
         Task<FeedingResult> TryFeedAsync();
 
         /// <summary>
+        /// Trigger scheduled feeding. When no scheduled feeding is due, no feeding will be done
+        /// </summary>
+        /// <param name="now">Optional current date and time to use</param>
+        Task<FeedingResult> TryScheduledFeedAsync(DateTimeOffset? now = null);
+
+        /// <summary>
         /// Schedule the feeding automatically
         /// </summary>
         /// <returns></returns>

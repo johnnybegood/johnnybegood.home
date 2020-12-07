@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Device.Gpio;
 using System.Linq;
-using System.Threading;
 using JOHHNYbeGOOD.Home.Exceptions;
 using JOHHNYbeGOOD.Home.Resources.Connectors;
 using JOHHNYbeGOOD.Home.Resources.Devices;
@@ -87,8 +85,12 @@ namespace JOHHNYbeGOOD.Home.Resources
         {
             TDevice device;
 
+            _logger.LogDebug("Initializing device {id} connection", name);
+
             if (_options.Things.TryGetValue(name, out ThingOptions options))
             {
+                _logger.LogDebug("Retrieving options for device {id}", name);
+
                 var deviceFromOptions = options.Device.Invoke();
 
                 if (deviceFromOptions is TDevice typedDeviceFromOptions)
@@ -102,12 +104,22 @@ namespace JOHHNYbeGOOD.Home.Resources
             }
             else
             {
+                _logger.LogWarning("No device found with name {id}", name);
                 device = default;
             }
 
             if (device is IRpiDevice rpiDevice)
             {
-                rpiDevice.Connect(_factory);
+                _logger.LogDebug("Connecting to device {id}", name);
+
+                try
+                {
+                    rpiDevice.Connect(_factory);
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, "Unable to connect to {device}", name);
+                }
             }
 
             return device;

@@ -1,4 +1,6 @@
+using JOHNNYbeGOOD.Home.Api.BackgroundJobs;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
 namespace JOHNNYbeGOOD.Home.Api
@@ -16,6 +18,10 @@ namespace JOHNNYbeGOOD.Home.Api
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
+                })
+                .ConfigureServices(services =>
+                {
+                    services.AddHostedService<SchedulerJob>();
                 });
     }
 }

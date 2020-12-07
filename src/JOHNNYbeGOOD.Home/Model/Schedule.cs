@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace JOHNNYbeGOOD.Home.Model
 {
@@ -11,6 +12,11 @@ namespace JOHNNYbeGOOD.Home.Model
         /// Temporary disable the automatic feeding schedule
         /// </summary>
         public bool Disabled { get; set; }
+
+        /// <summary>
+        /// Last update of the schedule
+        /// </summary>
+        public DateTimeOffset? LastUpdated { get; set; }
 
         /// <summary>
         /// Slots of the schedule

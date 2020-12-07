@@ -32,5 +32,13 @@ namespace JOHNNYbeGOOD.Home.Model
         {
             return new FeedingResult { Succeeded = true, SlotUsed = slotName };
         }
+
+        /// <summary>
+        /// Skipped feeding result
+        /// </summary>
+        public static FeedingResult Skipped()
+        {
+            return new FeedingResult { Succeeded = true };
+        }
     }
 }

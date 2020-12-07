@@ -5,6 +5,11 @@
         <DisableImplicitComponentsAnalyzers>true</DisableImplicitComponentsAnalyzers>
   </PropertyGroup>
 
+  <PropertyGroup Condition=" '$(RunConfiguration)' == 'development' ">
+    <StartAction>Project</StartAction>
+    <ExternalConsole>true</ExternalConsole>
+    <ApplicationURL>https://localhost:5003;http://localhost:5002</ApplicationURL>
+  </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\JOHHNYbeGOOD.Home.Resources\JOHHNYbeGOOD.Home.Resources.csproj">
       <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
@@ -37,10 +42,14 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Controllers\" />
+    <Folder Include="BackgroundJobs\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="johnnybegood.service">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Windows, Version=255.255.255.255, Culture=neutral, PublicKeyToken=null, ContentType=WindowsRuntime" />
   </ItemGroup>
 </Project>

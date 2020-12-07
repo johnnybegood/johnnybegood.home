@@ -13,7 +13,7 @@ namespace JOHNNYbeGOOD.Home.FeedingManager
 {
     public class DefaultFeedingManager : IFeedingManager
     {
-        private const string ScheduleName = "feeding";
+        public const string ScheduleName = "feeding";
         private readonly ISchedulingEngine _schedulingEngine;
         private readonly ILogger<DefaultFeedingManager> _logger;
         private readonly IScheduleResource _scheduleResource;
@@ -62,6 +62,7 @@ namespace JOHNNYbeGOOD.Home.FeedingManager
             if (candidate.TryOpenFlap())
             {
                 await _scheduleResource.LogFeeding(candidate.Name, DateTime.Now);
+                _logger.LogInformation("Successfull feeding on slot {slot} at {time}", candidate.Name, DateTime.Now);
                 return FeedingResult.Success(candidate.Name);
             }
 
@@ -110,6 +111,43 @@ namespace JOHNNYbeGOOD.Home.FeedingManager
         public Task<FeedingLogCollection> RetrieveFeedingLog()
         {
             return _scheduleResource.RetrieveFeedingLog();
+        }
+
+        /// <inheritdoc />
+        public async Task<FeedingResult> TryScheduledFeedAsync(DateTimeOffset? now)
+        {
+            var nowOffset = now ?? DateTimeOffset.Now;
+            var offsetDate = await CalculateOffsetDateTimeAsync(nowOffset);
+            var nextFeeding = await NextFeedingTime(offsetDate);
+
+            if (nextFeeding.HasValue && nextFeeding.Value <= nowOffset)
+            {
+                _logger.LogInformation("Trying feeding on schedule {next}", nextFeeding);
+                return await TryFeedAsync();
+            }
+
+            _logger.LogDebug("Skipping feeding, next feeding {next}", nextFeeding);
+            return FeedingResult.Skipped();
+        }
+
+        /// <summary>
+        /// Calculate the offset date to use for the next feeding time calculations
+        /// </summary>
+        /// <param name="now">Current date time</param>
+        /// <returns></returns>
+        private async Task<DateTimeOffset> CalculateOffsetDateTimeAsync(DateTimeOffset now)
+        {
+            var lastFeeding = await _scheduleResource.LastFeeding(now);
+            var scheduleUpdate = await _scheduleResource.RetrieveSchedule(ScheduleName);
+
+            if (lastFeeding == null)
+            {
+                return now;
+            }
+
+            return scheduleUpdate.LastUpdated > lastFeeding.Timestamp
+                ? scheduleUpdate.LastUpdated.Value
+                : lastFeeding.Timestamp;
         }
     }
 }

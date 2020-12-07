@@ -42,7 +42,7 @@ namespace JOHHNYbeGOOD.Home.Resources.Devices
         /// <inheritdoc />
         public bool Read()
         {
-            return _controller.Read(_pin) == PinValue.High;
+            return IsConnected() && _controller.Read(_pin) == PinValue.High;
         }
 
         /// <inheritdoc />

@@ -18,26 +18,26 @@ else
                 @if (feedingSummary.NextFeedingTime.HasValue)
                 {
                     <h1 class="title">@feedingSummary.NextFeedingTime.Value.ComparedToNow() until next feeding</h1>
-
-                    @if (string.IsNullOrWhiteSpace(feedingSummary.NextFeedingSlotName))
-                    {
-                        <p class="subtitle">All flaps empty</p>
-                    }
-                    else
-                    {
-                        <h2 class="subtitle">Using @feedingSummary.NextFeedingSlotName</h2>
-                    }
                 }
                 else
                 {
-                <h1 class="title">No next feeding scheduled</h1>
+                    <h1 class="title">No next feeding scheduled</h1>
+                }
+
+                @if (string.IsNullOrWhiteSpace(feedingSummary.NextFeedingSlotName))
+                {
+                    <p class="subtitle">All flaps empty</p>
+                }
+                else
+                {
+                    <p class="subtitle">Next flap: @feedingSummary.NextFeedingSlotName</p>
                 }
 
                 @if (feedingSummary.PreviousFeedingTime.HasValue)
                 {
                     <h2 class="subtitle">Last feeding: @feedingSummary.PreviousFeedingTime.Value.ComparedToNow() ago</h2>
                 }
-</div>
+            </div>
         </div>
     </section>
 }
@@ -45,7 +45,7 @@ else
 <section class="section">
     <div class="container">
         <div class="control">
-            <button type="submit" class="button is-link has-text-weight-medium is-medium @(isFeeding?"is-loading":"")" @onclick="FeedNowAsync" disabled="@isFeeding">Feed now</button>
+            <button type="submit" class="button is-link has-text-weight-medium is-medium @(isFeeding?"is-loading":"")" @onclick="FeedNowAsync" disabled="@(isFeeding || !canFeed)">Feed now</button>
         </div>
     </div>
 </section>
@@ -53,6 +53,7 @@ else
 @code {
     private FeedingSummaryResponse feedingSummary;
     private bool isFeeding;
+    private bool canFeed;
     private Alert successAlert;
     private Alert failedAlert;
     private string failureMessage;
@@ -60,18 +61,7 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        feedingSummary = await service.GetSummaryAsync();
-
-        heroClass = "is-primary";
-
-        if(!feedingSummary.NextFeedingTime.HasValue)
-        {
-            heroClass = "is-light";
-        }
-        else if (string.IsNullOrWhiteSpace(feedingSummary.NextFeedingSlotName))
-        {
-            heroClass = "is-warning";
-        }
+        await UpdateSummary();
     }
 
     private async Task ShowSuccess()
@@ -79,6 +69,23 @@ else
         successAlert.Show();
         await Task.Delay(2000);
         successAlert.Hide();
+    }
+
+    private async Task UpdateSummary()
+    {
+        feedingSummary = await service.GetSummaryAsync();
+        canFeed = !string.IsNullOrEmpty(feedingSummary.NextFeedingSlotName);
+
+        heroClass = "is-primary";
+
+        if (!feedingSummary.NextFeedingTime.HasValue)
+        {
+            heroClass = "is-light";
+        }
+        else if (string.IsNullOrWhiteSpace(feedingSummary.NextFeedingSlotName))
+        {
+            heroClass = "is-warning";
+        }
     }
 
     private void ShowFailure(string message)
@@ -92,6 +99,7 @@ else
         successAlert.Hide();
         failedAlert.Hide();
         isFeeding = true;
+
         try
         {
             var response = await service.PostFeed();
@@ -113,6 +121,7 @@ else
         finally
         {
             isFeeding = false;
+            await UpdateSummary();
         }
     }
 
