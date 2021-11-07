@@ -21,16 +21,21 @@ INSTALL_DIR=${BIN_DIR}/${SERVICE_NAME}
 info "Stopping existing JOHHNYbeGOOD.Home"
 systemctl stop ${SERVICE_NAME} >/dev/null 2>&1 || true
 
+# --- UNPACK ---
+info "Unpacking JOHHNYbeGOOD.Home to ${EXTRACT_DIR}"
+mkdir ${EXTRACT_DIR}
+tar -xzvf api.tar.gz -C ${EXTRACT_DIR}
+
+# --- BACKUP DB ---
+info "Backup DB"
+$SUDO cp ${INSTALL_DIR}/feeder-v1.db ${EXTRACT_DIR} || true
+$SUDO cp ${INSTALL_DIR}/feeder-v1.db ${EXTRACT_DIR}/feeder-v1.db.bak || true
+
 # --- CLEAR OLD INSTALL ---
 info "Removing old install"
 $SUDO rm -f ${FILE_SERVICE} || true
 $SUDO systemctl disable ${SERVICE_NAME} >/dev/null 2>&1 || true
 $SUDO rm -rf ${INSTALL_DIR}  >/dev/null 2>&1 || true
-
-# --- UNPACK ---
-info "Unpacking JOHHNYbeGOOD.Home to ${EXTRACT_DIR}"
-mkdir ${EXTRACT_DIR}
-tar -xzvf api.tar.gz -C ${EXTRACT_DIR}
 
 # --- SETUP PERMISSIONS ---
 info "Setting premisions JOHHNYbeGOOD.Home"
