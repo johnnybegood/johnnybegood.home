@@ -14,16 +14,20 @@ namespace JOHNNYbeGOOD.Home.FeedingManager
 
         public string Name { get; set; }
 
+        public bool BypassSensor { get; set; }
+
         /// <summary>
         /// Default constructor for <see cref="FeedingSlot"/>
         /// </summary>
         /// <param name="slotConfig"></param>
         /// <param name="dependendSlots"></param>
         /// <param name="thingsResource"></param>
-        public FeedingSlot(FeedingSlotOptions options, IEnumerable<FeedingSlot> dependendSlots,IThingsResource thingsResource)
+        public FeedingSlot(FeedingSlotOptions options, IEnumerable<FeedingSlot> dependendSlots, IThingsResource thingsResource)
         {
             _gate = thingsResource.GetDevice<IGateDevice>(options.FlapId);
-            _sensor = thingsResource.GetDevice<IDigitalSensor>(options.SensorId);
+            BypassSensor = options.BypassSensor;
+
+            _sensor = BypassSensor ? null : thingsResource.GetDevice<IDigitalSensor>(options.SensorId);
             _dependendSlots = dependendSlots == null ? new FeedingSlot[0] : dependendSlots.ToArray();
 
             Name = options.Name;
@@ -47,7 +51,7 @@ namespace JOHNNYbeGOOD.Home.FeedingManager
         /// <returns></returns>
         public bool FlapClosed()
         {
-            return _sensor.Read();
+            return BypassSensor || _sensor.Read();
         }
 
         /// <summary>
@@ -70,7 +74,7 @@ namespace JOHNNYbeGOOD.Home.FeedingManager
                 _gate.OpenGateAsync();
             }
 
-            return !FlapClosed();
+            return BypassSensor || !FlapClosed();
         }
     }
 }

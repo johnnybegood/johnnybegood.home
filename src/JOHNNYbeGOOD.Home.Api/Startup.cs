@@ -26,14 +26,14 @@ namespace JOHNNYbeGOOD.Home.Api
             services.AddControllers();
 
             services.AddRpiThings(o => o
-                .AddThing("gate-1", () => new DockerPiRelayChannelDevice(1, 0x10, 0x01))
-                .AddThing("gate-2", () => new DockerPiRelayChannelDevice(1, 0x10, 0x01))
-                .AddThing("sensor-1", () => new RpiInputPinDevice(26))
-                .AddThing("sensor-2", () => new RpiInputPinDevice(13)));
+                .AddThing("gate-1", () => new DockerPiRelayChannelDevice(1, 0x10, 0x01)));
+                //.AddThing("gate-2", () => new DockerPiRelayChannelDevice(1, 0x10, 0x01))
+                //.AddThing("sensor-1", () => new RpiInputPinDevice(26))
+                //.AddThing("sensor-2", () => new RpiInputPinDevice(13)));
 
             services.AddFeedingManager(o => o
-                .AddSlot("slot-1", "gate-1", "sensor-1")
-                .AddSlot("slot-2", "gate-2", "sensor-2")
+                .AddUncheckedSlot("slot-1", "gate-1")
+                //.AddSlot("slot-2", "gate-2", "sensor-2")
             );
 
             services.AddDefaultScheduling();

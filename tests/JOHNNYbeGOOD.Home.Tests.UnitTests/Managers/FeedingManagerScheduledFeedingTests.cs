@@ -58,7 +58,7 @@ namespace JOHNNYbeGOOD.Home.Tests.UnitTests.Managers
         public async Task ScheduleInThePastTriggersFeedingAsync()
         {
             var now = DateTimeOffset.Parse("2020/04/01 10:00:00");
-            var future = DateTime.Parse("2020/04/01 09:59:00");
+            var future = DateTime.Parse("2020/04/01 09:50:00");
 
             _mocker
                 .Setup<ISchedulingEngine, Task<DateTime?>>(e => e.CalculateNextSlotAsync(DefaultFeedingManager.ScheduleName, now))
@@ -67,6 +67,7 @@ namespace JOHNNYbeGOOD.Home.Tests.UnitTests.Managers
 
             var sensorMock = _mocker.GetMock<IDigitalSensor>();
             var slot = _mocker.GetSlotWithSensor("dummy-42", sensorMock);
+            slot.BypassSensor = true;
 
             var manager = _mocker.CreateInstance<DefaultFeedingManager>();
             manager.Slots = new[] { slot };
