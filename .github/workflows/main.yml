@@ -23,3 +23,9 @@ jobs:
             
       - name: Run build
         run: ./scripts/build.sh
+        
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v2.2.4
+        with:
+          path: publish/*
+      
