@@ -54,7 +54,7 @@ else
                 </Field>
             </CardBody>
             <CardFooter>
-                <Button Color="Color.Danger" IsDisabled="isSaving">Delete slot</Button>
+                <Button Color="Color.Danger" Clicked="@(() => DeleteSlot(slot))" IsDisabled="isSaving">Delete slot</Button>
             </CardFooter>
         </Card>
     }
@@ -82,6 +82,11 @@ else
             OnSaturday = true,
             OnSunday = true
         });
+    }
+
+    private void DeleteSlot(ScheduleResponseSlot slot)
+    {
+        slots.Remove(slot);
     }
 
     private void ShowFailure(string message)
