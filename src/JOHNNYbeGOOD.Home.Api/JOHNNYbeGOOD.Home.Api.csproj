@@ -26,7 +26,7 @@
     <ProjectReference Include="..\JOHNNYbeGOOD.Home.Client\JOHNNYbeGOOD.Home.Client.csproj">
       <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
     </ProjectReference>
-    <ProjectReference Include="..\JOHNNYbeGOOD.Home.API.Contracts\JOHNNYbeGOOD.Home.Api.Contracts.csproj">
+    <ProjectReference Include="..\JOHNNYbeGOOD.Home.Api.Contracts\JOHNNYbeGOOD.Home.Api.Contracts.csproj">
       <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
     </ProjectReference>
   </ItemGroup>
