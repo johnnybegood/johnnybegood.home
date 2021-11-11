@@ -72,9 +72,10 @@ namespace JOHNNYbeGOOD.Home.FeedingManager
         }
 
         /// <inheritdoc />
-        public async Task<DateTime?> NextFeedingTime(DateTimeOffset afterDateTime)
+        public async Task<DateTime?> NextFeedingTime(DateTime afterDateTime)
         {
-            var next = await _schedulingEngine.CalculateNextSlotAsync(ScheduleName, afterDateTime);
+            var offsetDate = await CalculateOffsetDateTimeAsync(afterDateTime);
+            var next = await _schedulingEngine.CalculateNextSlotAsync(ScheduleName, offsetDate);
 
             return next;
         }
@@ -92,7 +93,7 @@ namespace JOHNNYbeGOOD.Home.FeedingManager
         }
 
         /// <inheritdoc />
-        public async Task<FeedingSummary> FeedingSummary(DateTimeOffset afterDateTime)
+        public async Task<FeedingSummary> FeedingSummary(DateTime afterDateTime)
         {
             var lastFeeding = await _scheduleResource.LastFeeding(afterDateTime);
             var nextTime = await NextFeedingTime(afterDateTime);
@@ -114,13 +115,12 @@ namespace JOHNNYbeGOOD.Home.FeedingManager
         }
 
         /// <inheritdoc />
-        public async Task<FeedingResult> TryScheduledFeedAsync(DateTimeOffset? now)
+        public async Task<FeedingResult> TryScheduledFeedAsync(DateTime? now)
         {
-            var nowOffset = now ?? DateTimeOffset.Now;
-            var offsetDate = await CalculateOffsetDateTimeAsync(nowOffset);
-            var nextFeeding = await NextFeedingTime(offsetDate);
+            var nowDate = now ?? DateTime.Now;
+            var nextFeeding = await NextFeedingTime(nowDate);
 
-            if (nextFeeding.HasValue && nextFeeding.Value <= nowOffset)
+            if (nextFeeding.HasValue && nextFeeding.Value <= nowDate)
             {
                 _logger.LogInformation("Trying feeding on schedule {next}", nextFeeding);
                 return await TryFeedAsync();
@@ -131,18 +131,19 @@ namespace JOHNNYbeGOOD.Home.FeedingManager
         }
 
         /// <summary>
-        /// Calculate the offset date to use for the next feeding time calculations
+        /// Calculate the date to use for the next feeding time calculations. Normally this is the last feeding
         /// </summary>
         /// <param name="now">Current date time</param>
         /// <returns></returns>
-        private async Task<DateTimeOffset> CalculateOffsetDateTimeAsync(DateTimeOffset now)
+        private async Task<DateTime> CalculateOffsetDateTimeAsync(DateTime now)
         {
             var lastFeeding = await _scheduleResource.LastFeeding(now);
             var scheduleUpdate = await _scheduleResource.RetrieveSchedule(ScheduleName);
 
             if (lastFeeding == null)
             {
-                return now;
+                //If we never had a feeding, we use start of date. Any schedule for today will be use, even if it is an old one.
+                return now.Date;
             }
 
             return scheduleUpdate.LastUpdated > lastFeeding.Timestamp

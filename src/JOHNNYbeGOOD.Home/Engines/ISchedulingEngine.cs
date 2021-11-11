@@ -15,7 +15,7 @@ namespace JOHNNYbeGOOD.Home.Engines
         /// <param name="slot">The slot to use for the calculation</param>
         /// <param name="from">The date time to calculate the next run from</param>
         /// <returns>The date time for the next run or null if there is no next run</returns>
-        DateTime? CalculateNextRun(ScheduleSlot slot, DateTimeOffset afterDateTime);
+        DateTime? CalculateNextRun(ScheduleSlot slot, DateTime afterDateTime);
 
         /// <summary>
         /// Calculate the next slot for the given <paramref name="schedule"/> after <paramref name="from"/>. 
@@ -23,7 +23,7 @@ namespace JOHNNYbeGOOD.Home.Engines
         /// <param name="slot">The slot to use for the calculation</param>
         /// <param name="afterDateTime">The date time to calculate the next run from</param>
         /// <returns>The next run date time or null if there is no next run</returns>
-        DateTime? CalculateNextSlot(Schedule schedule, DateTimeOffset afterDateTime);
+        DateTime? CalculateNextSlot(Schedule schedule, DateTime afterDateTime);
 
         /// <summary>
         /// Calculate the next slot for the schedule after <paramref name="from"/>. 
@@ -31,6 +31,6 @@ namespace JOHNNYbeGOOD.Home.Engines
         /// <param name="scheduleId">The name of the schedule to use</param>
         /// <param name="afterDateTime">The date time to calculate the next run from</param>
         /// <returns>The next run date time or null if there is no next run</returns>
-        Task<DateTime?> CalculateNextSlotAsync(string scheduleId, DateTimeOffset afterDateTime);
+        Task<DateTime?> CalculateNextSlotAsync(string scheduleId, DateTime afterDateTime);
     }
 }

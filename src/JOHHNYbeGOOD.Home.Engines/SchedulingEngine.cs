@@ -24,7 +24,7 @@ namespace JOHHNYbeGOOD.Home.Engines
             _scheduleResource = scheduleResource;
         }
         /// <inheritdoc />
-        public DateTime? CalculateNextSlot(Schedule schedule, DateTimeOffset afterDateTime)
+        public DateTime? CalculateNextSlot(Schedule schedule, DateTime afterDateTime)
         {
             if (schedule is null)
             {
@@ -46,7 +46,7 @@ namespace JOHHNYbeGOOD.Home.Engines
         }
 
         /// <inheritdoc />
-        public DateTime? CalculateNextRun(ScheduleSlot slot, DateTimeOffset afterDateTime)
+        public DateTime? CalculateNextRun(ScheduleSlot slot, DateTime afterDateTime)
         {
             if (slot == null)
             {
@@ -81,7 +81,7 @@ namespace JOHHNYbeGOOD.Home.Engines
         }
 
         /// <inheritdoc />
-        public async Task<DateTime?> CalculateNextSlotAsync(string scheduleId, DateTimeOffset afterDateTime)
+        public async Task<DateTime?> CalculateNextSlotAsync(string scheduleId, DateTime afterDateTime)
         {
             if (string.IsNullOrWhiteSpace(scheduleId))
             {

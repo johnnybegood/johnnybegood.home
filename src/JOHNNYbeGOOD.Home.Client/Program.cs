@@ -1,3 +1,5 @@
+using System;
+using System.Net.Http;
 using Blazorise;
 using Blazorise.Bulma;
 using Blazorise.Icons.FontAwesome;
@@ -25,7 +27,7 @@ namespace JOHNNYbeGOOD.Home.Client
 
             builder.RootComponents.Add<App>("app");
 
-            builder.Services.AddBaseAddressHttpClient();
+            builder.Services.AddSingleton(new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
 
             builder.Services.AddTransient<IFeedingService, FeedingServiceProxy>();
             builder.Services.AddTransient<ISystemService, FeedingServiceProxy>();

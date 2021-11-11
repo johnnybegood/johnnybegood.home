@@ -12,7 +12,6 @@ namespace JOHNNYbeGOOD.Home.Api.BackgroundJobs
         private const int RunDelay = 10000;
         private readonly ILogger<SchedulerJob> _logger;
         private readonly IServiceProvider _services;
-        private DateTime? _nextRun;
 
         /// <summary>
         /// Default constructor for <see cref="SchedulerJob"/>
@@ -36,7 +35,7 @@ namespace JOHNNYbeGOOD.Home.Api.BackgroundJobs
                 using var scope = _services.CreateScope();
                 var feedingManager = scope.ServiceProvider.GetRequiredService<IFeedingManager>();
 
-                _logger.LogDebug("Trying scheduled feeding");
+                _logger.LogDebug("Checking schedule");
 
                 var result = await feedingManager.TryScheduledFeedAsync();
             }

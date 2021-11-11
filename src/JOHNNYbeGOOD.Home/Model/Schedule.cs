@@ -16,7 +16,7 @@ namespace JOHNNYbeGOOD.Home.Model
         /// <summary>
         /// Last update of the schedule
         /// </summary>
-        public DateTimeOffset? LastUpdated { get; set; }
+        public DateTime? LastUpdated { get; set; }
 
         /// <summary>
         /// Slots of the schedule

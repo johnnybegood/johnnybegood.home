@@ -20,7 +20,7 @@ namespace JOHNNYbeGOOD.Home
         /// Trigger scheduled feeding. When no scheduled feeding is due, no feeding will be done
         /// </summary>
         /// <param name="now">Optional current date and time to use</param>
-        Task<FeedingResult> TryScheduledFeedAsync(DateTimeOffset? now = null);
+        Task<FeedingResult> TryScheduledFeedAsync(DateTime? now = null);
 
         /// <summary>
         /// Schedule the feeding automatically
@@ -39,7 +39,7 @@ namespace JOHNNYbeGOOD.Home
         /// </summary>
         /// <param name="afterDateTime">The date time to calculate the summary on</param>
         /// <returns></returns>
-        Task<FeedingSummary> FeedingSummary(DateTimeOffset afterDateTime);
+        Task<FeedingSummary> FeedingSummary(DateTime afterDateTime);
 
         /// <summary>s
         /// Determine the next feeding slot
@@ -52,7 +52,7 @@ namespace JOHNNYbeGOOD.Home
         /// </summary>
         /// <param name="afterDateTime">The date time to calculate the next feeding time from</param>
         /// <returns>The date time of the next feeding.</returns>
-        Task<DateTime?> NextFeedingTime(DateTimeOffset afterDateTime);
+        Task<DateTime?> NextFeedingTime(DateTime afterDateTime);
 
         /// <summary>
         /// Retrieve the feeding

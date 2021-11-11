@@ -22,7 +22,7 @@ namespace JOHHNYbeGOOD.Home.Resources
         /// Default constructor for <see cref="DbScheduleResource"/>
         /// </summary>
         /// <param name="options"></param>
-        public DbScheduleResource(IOptionsSnapshot<ScheduleResourceOptions> options, ILogger<RPiThingsResource> logger)
+        public DbScheduleResource(IOptions<ScheduleResourceOptions> options, ILogger<RPiThingsResource> logger)
         {
             _db = new LiteDatabase(options.Value.ConnectionString);
             _scheduleCollection = _db.GetCollection<Schedule>();
@@ -84,7 +84,7 @@ namespace JOHHNYbeGOOD.Home.Resources
         }
 
         /// <inheritdoc />
-        public Task<FeedingLog> LastFeeding(DateTimeOffset beforeDateTime)
+        public Task<FeedingLog> LastFeeding(DateTime beforeDateTime)
         {
             return Task.Run(() => _logCollection
                 .Find(l => l.Timestamp <= beforeDateTime.ToUniversalTime() && l.Result == FeedingLogResult.Successfull)

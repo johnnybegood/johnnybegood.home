@@ -46,6 +46,6 @@ namespace JOHNNYbeGOOD.Home.Resources
         /// Last successfull feeding
         /// </summary>
         /// <param name="before">The date time to find the last successfull feeding relative to</param>
-        Task<FeedingLog> LastFeeding(DateTimeOffset beforeDateTime);
+        Task<FeedingLog> LastFeeding(DateTime beforeDateTime);
     }
 }
