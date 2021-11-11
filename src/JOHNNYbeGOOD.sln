@@ -17,7 +17,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JOHNNYbeGOOD.Home.Api", "JO
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JOHNNYbeGOOD.Home.Client", "JOHNNYbeGOOD.Home.Client\JOHNNYbeGOOD.Home.Client.csproj", "{7579C5B6-E61A-4EEA-BD6C-9D5196228B6E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JOHNNYbeGOOD.Home.Api.Contracts", "JOHNNYbeGOOD.Home.API.Contracts\JOHNNYbeGOOD.Home.Api.Contracts.csproj", "{D7D21702-7B55-4F8C-BDC6-31EB35EA7EC3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JOHNNYbeGOOD.Home.Api.Contracts", "JOHNNYbeGOOD.Home.Api.Contracts\JOHNNYbeGOOD.Home.Api.Contracts.csproj", "{D7D21702-7B55-4F8C-BDC6-31EB35EA7EC3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
