@@ -27,7 +27,7 @@ echo "[INFO] Generating publish build API"
 echo "-------------------------------------------------------"
 cd $DIR
 cd ../src/JOHNNYbeGOOD.Home.Api
-dotnet publish -c release -r linux-arm -o ../../publish/api
+dotnet publish -c release -r linux-arm --self-contained -o ../../publish/api
 
 echo "-------------------------------------------------------"
 echo "[INFO] Preparing package"
