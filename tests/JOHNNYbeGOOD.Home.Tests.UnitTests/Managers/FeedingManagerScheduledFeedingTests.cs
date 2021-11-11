@@ -17,9 +17,10 @@ namespace JOHNNYbeGOOD.Home.Tests.UnitTests.Managers
         [Fact]
         public async Task EmptyScheduleSkipsFeedingAsync()
         {
-            var now = DateTimeOffset.Parse("2020/04/01 10:00:00");
+            var now = DateTime.Parse("2020/04/01 10:00:00");
+
             _mocker
-                .Setup<ISchedulingEngine, Task<DateTime?>>(e => e.CalculateNextSlotAsync(DefaultFeedingManager.ScheduleName, now))
+                .Setup<ISchedulingEngine, Task<DateTime?>>(e => e.CalculateNextSlotAsync(DefaultFeedingManager.ScheduleName, now.Date))
                 .Returns(Task.FromResult<DateTime?>(null))
                 .Verifiable();
 
@@ -36,11 +37,11 @@ namespace JOHNNYbeGOOD.Home.Tests.UnitTests.Managers
         [Fact]
         public async Task ScheduleInTheFutureSkipsFeedingAsync()
         {
-            var now = DateTimeOffset.Parse("2020/04/01 10:00:00");
+            var now = DateTime.Parse("2020/04/01 10:00:00");
             var future = DateTime.Parse("2020/04/01 12:00:00");
 
             _mocker
-                .Setup<ISchedulingEngine, Task<DateTime?>>(e => e.CalculateNextSlotAsync(DefaultFeedingManager.ScheduleName, now))
+                .Setup<ISchedulingEngine, Task<DateTime?>>(e => e.CalculateNextSlotAsync(DefaultFeedingManager.ScheduleName, now.Date))
                 .Returns(Task.FromResult<DateTime?>(future))
                 .Verifiable();
 
@@ -57,11 +58,11 @@ namespace JOHNNYbeGOOD.Home.Tests.UnitTests.Managers
         [Fact]
         public async Task ScheduleInThePastTriggersFeedingAsync()
         {
-            var now = DateTimeOffset.Parse("2020/04/01 10:00:00");
+            var now = DateTime.Parse("2020/04/01 10:00:00");
             var future = DateTime.Parse("2020/04/01 09:50:00");
 
             _mocker
-                .Setup<ISchedulingEngine, Task<DateTime?>>(e => e.CalculateNextSlotAsync(DefaultFeedingManager.ScheduleName, now))
+                .Setup<ISchedulingEngine, Task<DateTime?>>(e => e.CalculateNextSlotAsync(DefaultFeedingManager.ScheduleName, now.Date))
                 .Returns(Task.FromResult<DateTime?>(future))
                 .Verifiable();
 
