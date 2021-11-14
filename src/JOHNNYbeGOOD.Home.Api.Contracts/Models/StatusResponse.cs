@@ -3,10 +3,8 @@ namespace JOHNNYbeGOOD.Home.Api.Contracts.Models
 {
     public class StatusResponse
     {
-        public string Device { get; set; }
-        public string DeviceType { get; set; }
-        public bool Connected { get; set; }
-        public string State { get; set; }
-        public string Description { get; set; }
+        public DeviceStatusResponse[] Devices { get; set; }
+
+        public FeedingSlotStatusResponse[] FeedingSlot { get; set; }
     }
 }

@@ -21,7 +21,7 @@ namespace JOHNNYbeGOOD.Home.FeedingManager
             {
                 Name = name,
                 FlapId = flap,
-                SensorId = sensor
+                SensorId = sensor,
             });
 
             return this;

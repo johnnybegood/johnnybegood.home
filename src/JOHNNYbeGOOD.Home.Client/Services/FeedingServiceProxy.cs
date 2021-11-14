@@ -34,9 +34,9 @@ namespace JOHNNYbeGOOD.Home.Client.Services
         }
 
         /// <inheritdoc />
-        public Task<StatusResponse[]> GetStatus()
+        public Task<StatusResponse> GetStatus()
         {
-            return _httpClient.GetJsonAsync<StatusResponse[]>("api/system/status");
+            return _httpClient.GetJsonAsync<StatusResponse>("api/system/status");
         }
 
         /// <inheritdoc />

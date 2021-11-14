@@ -5,6 +5,6 @@ namespace JOHNNYbeGOOD.Home.Api.Contracts
 {
     public interface ISystemService
     {
-        Task<StatusResponse[]> GetStatus();
+        Task<StatusResponse> GetStatus();
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using JOHNNYbeGOOD.Home.Model;
 using JOHNNYbeGOOD.Home.Model.Devices;
 using JOHNNYbeGOOD.Home.Resources;
@@ -8,6 +9,8 @@ namespace JOHNNYbeGOOD.Home.FeedingManager
 {
     public class FeedingSlot : IFeedingSlot
     {
+        private const int DefaultWaitMs = 1000;
+
         private readonly IGateDevice _gate;
         private readonly IDigitalSensor _sensor;
         private readonly FeedingSlot[] _dependendSlots;
@@ -67,12 +70,14 @@ namespace JOHNNYbeGOOD.Home.FeedingManager
         /// Try to open the slot
         /// </summary>
         /// <returns></returns>
-        public bool TryOpenFlap()
+        public async Task<bool> TryOpenFlapAsync()
         {
             if (CanOpen())
             {
-                _gate.OpenGateAsync();
+                await _gate.OpenGateAsync();
             }
+
+            await Task.Delay(DefaultWaitMs);
 
             return BypassSensor || !FlapClosed();
         }

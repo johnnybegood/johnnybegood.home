@@ -78,9 +78,10 @@ namespace JOHNNYbeGOOD.Home.Api.Controllers
                 .Select(l => new LogResponse
                 {
                     Id = l.Id,
-                    DisplayId = l.Id.Substring(0, 8),
+                    DisplayId = l.Id[..8],
                     Result = l.Result.ToString(),
                     Cause = l.Cause,
+                    Description = l.Description,
                     Timestamp = l.Timestamp
                 })
                 .ToArray();

@@ -9,6 +9,7 @@
 }
 else
 {
+    <h2>Devices</h2>
     <Table IsStriped="true">
         <TableHeader>
             <TableRow>
@@ -19,7 +20,7 @@ else
             </TableRow>
         </TableHeader>
         <TableBody>
-            @foreach (var item in status)
+            @foreach (var item in status.Devices)
             {
             <TableRow>
                 <TableRowHeader>@item.Device</TableRowHeader>
@@ -38,10 +39,28 @@ else
         </TableBody>
     </Table>
 
+    <h2>Feeding slots</h2>
+    <Table IsStriped="true">
+        <TableHeader>
+            <TableRow>
+                <TableHeaderCell>#</TableHeaderCell>
+                <TableHeaderCell>Can Open</TableHeaderCell>
+            </TableRow>
+        </TableHeader>
+        <TableBody>
+            @foreach (var item in status.FeedingSlot)
+            {
+            <TableRow>
+                <TableRowHeader>@item.Slot</TableRowHeader>
+                <TableRowCell>@item.CanOpen</TableRowCell>
+            </TableRow>
+            }
+        </TableBody>
+    </Table>
 }
 
 @code {
-    private StatusResponse[] status;
+    private StatusResponse status;
 
     protected override async Task OnInitializedAsync()
     {

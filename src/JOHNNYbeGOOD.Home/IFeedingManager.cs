@@ -58,5 +58,10 @@ namespace JOHNNYbeGOOD.Home
         /// Retrieve the feeding
         /// </summary>
         Task<FeedingLogCollection> RetrieveFeedingLog();
+
+        /// <summary>
+        /// Get diagnostics on the feeding slots
+        /// </summary>
+        FeedingSlotDiagnostics[] GetDiagnostics();
     }
 }

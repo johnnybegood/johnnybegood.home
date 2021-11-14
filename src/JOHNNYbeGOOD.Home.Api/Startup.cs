@@ -26,13 +26,13 @@ namespace JOHNNYbeGOOD.Home.Api
             services.AddControllers();
 
             services.AddRpiThings(o => o
-                .AddThing("gate-1", () => new DockerPiRelayChannelDevice(1, 0x10, 0x01)));
+                .AddThing("gate-1", () => new DockerPiRelayChannelDevice(1, 0x10, 0x01))
                 //.AddThing("gate-2", () => new DockerPiRelayChannelDevice(1, 0x10, 0x01))
-                //.AddThing("sensor-1", () => new RpiInputPinDevice(26))
+                .AddThing("sensor-1", () => new RpiInputPinDevice(26, isNC: true)));
                 //.AddThing("sensor-2", () => new RpiInputPinDevice(13)));
 
             services.AddFeedingManager(o => o
-                .AddUncheckedSlot("slot-1", "gate-1")
+                .AddSlot("slot-1", "gate-1", "sensor-1")
                 //.AddSlot("slot-2", "gate-2", "sensor-2")
             );
 
@@ -40,7 +40,7 @@ namespace JOHNNYbeGOOD.Home.Api
 
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("202002", new OpenApiInfo { Title = "Feeder internal API", Version = "202002" });
+                c.SwaggerDoc("202002", new OpenApiInfo { Title = "Feeder internal API", Version = "202111" });
             });
         }
 

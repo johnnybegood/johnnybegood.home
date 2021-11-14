@@ -15,19 +15,23 @@ namespace JOHNNYbeGOOD.Home.Api.Controllers
     {
         private IThingsResource _thingsResource;
         private readonly IScheduleResource _scheduleResource;
+        private readonly IFeedingManager _feedingManager;
 
-        public SystemController(IThingsResource thingsResource, IScheduleResource scheduleResource)
+        public SystemController(IThingsResource thingsResource, IScheduleResource scheduleResource, IFeedingManager feedingManager)
         {
             _thingsResource = thingsResource;
             _scheduleResource = scheduleResource;
+            _feedingManager = feedingManager;
         }
 
         [HttpGet("status")]
-        public Task<StatusResponse[]> GetStatus()
+        public Task<StatusResponse> GetStatus()
         {
-            var status = _thingsResource
+            var response = new StatusResponse
+            {
+                Devices = _thingsResource
                 .FullDeviceSummary()
-                .Select(s => new StatusResponse
+                .Select(s => new DeviceStatusResponse
                 {
                     Device = s.Id,
                     DeviceType = s.DeviceType.Name,
@@ -35,9 +39,19 @@ namespace JOHNNYbeGOOD.Home.Api.Controllers
                     State = Enum.GetName(typeof(DeviceStateCode), s.Status.Code),
                     Description = s.Status.Description
                 })
-                .ToArray();
+                .ToArray(),
 
-            return Task.FromResult(status);
+                FeedingSlot = _feedingManager
+                    .GetDiagnostics()
+                    .Select(s => new FeedingSlotStatusResponse
+                    {
+                        Slot = s.Id,
+                        CanOpen = s.CanOpen
+                    })
+                    .ToArray()
+            };
+
+            return Task.FromResult(response);
         }
     }
 }

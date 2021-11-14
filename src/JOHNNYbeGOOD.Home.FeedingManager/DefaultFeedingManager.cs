@@ -47,6 +47,14 @@ namespace JOHNNYbeGOOD.Home.FeedingManager
         }
 
         /// <inheritdoc />
+        public FeedingSlotDiagnostics[] GetDiagnostics()
+        {
+            return Slots
+                .Select(s => new FeedingSlotDiagnostics { Id = s.Name, CanOpen = s.CanOpen() })
+                .ToArray();
+        }
+
+        /// <inheritdoc />
         public async Task<FeedingResult> TryFeedAsync()
         {
             var candidate = (FeedingSlot) NextFeedingSlot();
@@ -59,14 +67,16 @@ namespace JOHNNYbeGOOD.Home.FeedingManager
 
             _logger.LogDebug("Openening feeding slot {slot}", candidate.Name);
 
-            if (candidate.TryOpenFlap())
+            var opened = await candidate.TryOpenFlapAsync();
+
+            if (opened)
             {
                 await _scheduleResource.LogFeeding(candidate.Name, DateTime.Now);
                 _logger.LogInformation("Successfull feeding on slot {slot} at {time}", candidate.Name, DateTime.Now);
                 return FeedingResult.Success(candidate.Name);
             }
 
-            await _scheduleResource.LogFailedFeeding(candidate.Name, DateTime.Now);
+            await _scheduleResource.LogFailedFeeding(candidate.Name, DateTime.Now, "Flap stuck");
             _logger.LogError("Failed feeding for slot {slot}", candidate.Name);
             return FeedingResult.Failed();
         }

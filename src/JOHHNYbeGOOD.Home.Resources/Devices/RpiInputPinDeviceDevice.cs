@@ -10,6 +10,7 @@ namespace JOHHNYbeGOOD.Home.Resources.Devices
     public class RpiInputPinDevice : IDigitalSensor, IRpiDevice
     {
         private readonly int _pin;
+        private readonly PinValue _readPinValue;
         private GpioController _controller;
 
         /// <summary>
@@ -17,9 +18,11 @@ namespace JOHHNYbeGOOD.Home.Resources.Devices
         /// </summary>
         /// <param name="pin"></param>
         /// <param name="controller"></param>
-        public RpiInputPinDevice(int pin)
+        /// <param name="isNC">Flag indicating if device is NC (true) or NO (false)</param>
+        public RpiInputPinDevice(int pin, bool isNC = false)
         {
             _pin = pin;
+            _readPinValue = isNC ? PinValue.Low : PinValue.High;
         }
 
         /// <inheritdoc />
@@ -42,7 +45,7 @@ namespace JOHHNYbeGOOD.Home.Resources.Devices
         /// <inheritdoc />
         public bool Read()
         {
-            return IsConnected() && _controller.Read(_pin) == PinValue.High;
+            return IsConnected() && _controller.Read(_pin) == _readPinValue;
         }
 
         /// <inheritdoc />
@@ -60,17 +63,17 @@ namespace JOHHNYbeGOOD.Home.Resources.Devices
 
             var value = _controller.Read(_pin);
 
-            if (value == PinValue.High)
+            if (value != PinValue.High && value != PinValue.Low)
             {
-                return DeviceStatus.Closed("High value on pin");
+                return DeviceStatus.Error($"Unkown value {value} on pin");
             }
-            else if (value == PinValue.Low)
+            else if (value == _readPinValue)
             {
-                return DeviceStatus.Open("Low value on pin");
+                return DeviceStatus.Closed($"{value} value on pin");
             }
             else
             {
-                return DeviceStatus.Error($"Unkown value {value} on pin");
+                return DeviceStatus.Open($"{value} value on pin");
             }
         }
     }
