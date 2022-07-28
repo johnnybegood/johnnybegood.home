@@ -22,6 +22,7 @@ namespace JOHNNYbeGOOD.Home.Api
                 .ConfigureServices(services =>
                 {
                     services.AddHostedService<SchedulerJob>();
+                    services.AddHostedService<CleanUpJob>();
                 });
     }
 }

@@ -92,6 +92,15 @@ namespace JOHHNYbeGOOD.Home.Resources
                 .FirstOrDefault());
         }
 
+        /// <inheritdoc />
+        public Task CleanUpLog()
+        {
+            var before = DateTime.UtcNow.AddDays(-5);
+            _logCollection.DeleteMany(l => l.Timestamp <= before.ToUniversalTime());
+
+            return Task.CompletedTask;
+        }
+
         /// <summary>
         /// Log a feeding
         /// </summary>

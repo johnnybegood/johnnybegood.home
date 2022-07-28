@@ -47,5 +47,10 @@ namespace JOHNNYbeGOOD.Home.Resources
         /// </summary>
         /// <param name="before">The date time to find the last successfull feeding relative to</param>
         Task<FeedingLog> LastFeeding(DateTime beforeDateTime);
+
+        /// <summary>
+        /// Clean log
+        /// </summary>
+        Task CleanUpLog();
     }
 }
