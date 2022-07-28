@@ -7,24 +7,31 @@ info()
     echo '[INFO] ' "$@"
 }
 
-# --- LOCATIONS ---
+# --- VARIABLES ---
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
-EXTRACT_DIR=${DIR}/tmp
+DOWNLOAD_DIR=${DIR}/tmp
+EXTRACT_DIR=${DOWNLOAD_DIR}/extract
 SERVICE_NAME=johnnybegood
 SERVICE_FILE=${SERVICE_NAME}.service
 SYSTEMD_DIR=/etc/systemd/system
 FILE_SERVICE=${SYSTEMD_DIR}/${SERVICE_FILE}
 BIN_DIR=/usr/local/bin
 INSTALL_DIR=${BIN_DIR}/${SERVICE_NAME}
+VERSION="latest"
 
-# --- STOPPING ---
-info "Stopping existing JOHHNYbeGOOD.Home"
-systemctl stop ${SERVICE_NAME} >/dev/null 2>&1 || true
+# --- DOWNLOAD FILES ---
+info "Downloading ${VERSION}"
+mkdir ${DOWNLOAD_DIR}
+wget -P ${DOWNLOAD_DIR} "https://github.com/johnnybegood/johnnybegood.home/releases/download/${VERSION}/api.tar.gz"
 
 # --- UNPACK ---
 info "Unpacking JOHHNYbeGOOD.Home to ${EXTRACT_DIR}"
 mkdir ${EXTRACT_DIR}
-tar -xzvf api.tar.gz -C ${EXTRACT_DIR}
+tar -xzvf ${EXTRACT_DIR}/api.tar.gz -C ${EXTRACT_DIR}
+
+# --- STOPPING ---
+info "Stopping existing JOHHNYbeGOOD.Home"
+systemctl stop ${SERVICE_NAME} >/dev/null 2>&1 || true
 
 # --- BACKUP DB ---
 info "Backup DB"
