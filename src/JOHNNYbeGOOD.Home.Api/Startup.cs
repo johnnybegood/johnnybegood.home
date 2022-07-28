@@ -27,7 +27,7 @@ namespace JOHNNYbeGOOD.Home.Api
 
             services.AddRpiThings(o => o
                 .AddThing("actor-1", () => new DockerPiRelayChannelDevice(1, 0x10, 0x01))
-                .AddThing("actor-1", () => new DockerPiRelayChannelDevice(1, 0x10, 0x02))
+                .AddThing("actor-2", () => new DockerPiRelayChannelDevice(1, 0x10, 0x02))
                 .AddThing("actor-3", () => new DockerPiRelayChannelDevice(1, 0x10, 0x03))
                 .AddThing("actor-4", () => new DockerPiRelayChannelDevice(1, 0x10, 0x04))
                 .AddThing("sensor-1", () => new RpiInputPinDevice(26, isNC: true))
