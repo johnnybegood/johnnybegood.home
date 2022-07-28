@@ -26,8 +26,10 @@ namespace JOHNNYbeGOOD.Home.Api
             services.AddControllers();
 
             services.AddRpiThings(o => o
-                .AddThing("gate-1", () => new DockerPiRelayChannelDevice(1, 0x10, 0x01))
-                .AddThing("gate-2", () => new DockerPiRelayChannelDevice(1, 0x10, 0x02))
+                .AddThing("actor-1", () => new DockerPiRelayChannelDevice(1, 0x10, 0x01))
+                .AddThing("actor-1", () => new DockerPiRelayChannelDevice(1, 0x10, 0x02))
+                .AddThing("actor-3", () => new DockerPiRelayChannelDevice(1, 0x10, 0x03))
+                .AddThing("actor-4", () => new DockerPiRelayChannelDevice(1, 0x10, 0x04))
                 .AddThing("sensor-1", () => new RpiInputPinDevice(26, isNC: true))
                 .AddThing("sensor-2", () => new RpiInputPinDevice(19, isNC: true))
                 .AddThing("sensor-3", () => new RpiInputPinDevice(16, isNC: true))
@@ -35,8 +37,10 @@ namespace JOHNNYbeGOOD.Home.Api
 
             // Add bottom to top
             services.AddFeedingManager(o => o
-                .AddSlot("slot-2", "gate-2", "sensor-2")
-                .AddSlot("slot-1", "gate-1", "sensor-1")
+                .AddSlot("slot-4", "actor-4", "sensor-4")
+                .AddSlot("slot-3", "actor-3", "sensor-3")
+                .AddSlot("slot-2", "actor-2", "sensor-2")
+                .AddSlot("slot-1", "actor-1", "sensor-1")
             );
 
             services.AddDefaultScheduling();
