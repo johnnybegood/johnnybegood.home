@@ -22,12 +22,12 @@ VERSION="latest"
 # --- DOWNLOAD FILES ---
 info "Downloading ${VERSION}"
 mkdir ${DOWNLOAD_DIR}
-wget -P ${DOWNLOAD_DIR} "https://github.com/johnnybegood/johnnybegood.home/releases/download/${VERSION}/api.tar.gz"
+wget --quiet -P ${DOWNLOAD_DIR} "https://github.com/johnnybegood/johnnybegood.home/releases/download/${VERSION}/api.tar.gz"
 
 # --- UNPACK ---
 info "Unpacking JOHHNYbeGOOD.Home to ${EXTRACT_DIR}"
 mkdir ${EXTRACT_DIR}
-tar -xzvf ${EXTRACT_DIR}/api.tar.gz -C ${EXTRACT_DIR}
+tar -xzvf ${DOWNLOAD_DIR}/api.tar.gz -C ${EXTRACT_DIR}
 
 # --- STOPPING ---
 info "Stopping existing JOHHNYbeGOOD.Home"
