@@ -49,6 +49,12 @@ namespace JOHNNYbeGOOD.Home.Resources
         Task<FeedingLog> LastFeeding(DateTime beforeDateTime);
 
         /// <summary>
+        /// Last attempted feeding, includes failed feedings
+        /// </summary>
+        /// <param name="before">The date time to find the last attempted feeding relative to</param>
+        Task<FeedingLog> LastFeedingAttempt(DateTime beforeDateTime);
+
+        /// <summary>
         /// Clean log
         /// </summary>
         Task CleanUpLog();

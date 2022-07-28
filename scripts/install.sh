@@ -8,7 +8,6 @@ info()
 }
 
 # --- VARIABLES ---
-DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 DOWNLOAD_DIR=/tmp/johnnybegoodhome
 EXTRACT_DIR=${DOWNLOAD_DIR}/extract
 SERVICE_NAME=johnnybegood

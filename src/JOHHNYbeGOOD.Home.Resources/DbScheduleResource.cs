@@ -84,10 +84,19 @@ namespace JOHHNYbeGOOD.Home.Resources
         }
 
         /// <inheritdoc />
-        public Task<FeedingLog> LastFeeding(DateTime beforeDateTime)
+        public Task<FeedingLog> LastFeedingAttempt(DateTime beforeDateTime)
         {
             return Task.Run(() => _logCollection
                 .Find(l => l.Timestamp <= beforeDateTime.ToUniversalTime())
+                .OrderByDescending(l => l.Timestamp)
+                .FirstOrDefault());
+        }
+
+        /// <inheritdoc />
+        public Task<FeedingLog> LastFeeding(DateTime beforeDateTime)
+        {
+            return Task.Run(() => _logCollection
+                .Find(l => l.Timestamp <= beforeDateTime.ToUniversalTime() && l.Result == FeedingLogResult.Successfull)
                 .OrderByDescending(l => l.Timestamp)
                 .FirstOrDefault());
         }

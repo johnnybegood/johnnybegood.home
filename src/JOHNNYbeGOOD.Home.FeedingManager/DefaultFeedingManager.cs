@@ -141,13 +141,13 @@ namespace JOHNNYbeGOOD.Home.FeedingManager
         }
 
         /// <summary>
-        /// Calculate the date to use for the next feeding time calculations. Normally this is the last feeding
+        /// Calculate the date to use for the next feeding time calculations. Normally this is the last feeding attempt
         /// </summary>
         /// <param name="now">Current date time</param>
         /// <returns></returns>
         private async Task<DateTime> CalculateOffsetDateTimeAsync(DateTime now)
         {
-            var lastFeeding = await _scheduleResource.LastFeeding(now);
+            var lastFeeding = await _scheduleResource.LastFeedingAttempt(now);
             var scheduleUpdate = await _scheduleResource.RetrieveSchedule(ScheduleName);
 
             if (lastFeeding == null)
