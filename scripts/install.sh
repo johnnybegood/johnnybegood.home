@@ -9,7 +9,7 @@ info()
 
 # --- VARIABLES ---
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
-DOWNLOAD_DIR=${DIR}/tmp
+DOWNLOAD_DIR=/tmp/johnnybegoodhome
 EXTRACT_DIR=${DOWNLOAD_DIR}/extract
 SERVICE_NAME=johnnybegood
 SERVICE_FILE=${SERVICE_NAME}.service
@@ -21,13 +21,14 @@ VERSION="latest"
 
 # --- DOWNLOAD FILES ---
 info "Downloading ${VERSION}"
+$SUDO rm -rf ${DOWNLOAD_DIR} || true
 mkdir ${DOWNLOAD_DIR}
 wget --quiet -P ${DOWNLOAD_DIR} "https://github.com/johnnybegood/johnnybegood.home/releases/download/${VERSION}/api.tar.gz"
 
 # --- UNPACK ---
 info "Unpacking JOHHNYbeGOOD.Home to ${EXTRACT_DIR}"
 mkdir ${EXTRACT_DIR}
-tar -xzvf ${DOWNLOAD_DIR}/api.tar.gz -C ${EXTRACT_DIR}
+tar -xzf ${DOWNLOAD_DIR}/api.tar.gz -C ${EXTRACT_DIR}
 
 # --- STOPPING ---
 info "Stopping existing JOHHNYbeGOOD.Home"

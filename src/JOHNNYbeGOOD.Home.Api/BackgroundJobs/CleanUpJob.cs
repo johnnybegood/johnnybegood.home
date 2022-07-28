@@ -27,6 +27,8 @@ namespace JOHNNYbeGOOD.Home.Api.BackgroundJobs
         /// <inheritdoc />
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
+            await Task.Delay(10000, stoppingToken); //Give service time to start
+
             _logger.LogInformation("Starting clean up job");
 
             while (!stoppingToken.IsCancellationRequested)
